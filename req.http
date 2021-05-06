@@ -7,4 +7,4 @@ GET {{url}}/other
 POST {{url}}/copy
 Content-Type: application/json
 
-{"file_in": "o_ne", "file_out": "another"}
+{"file_in": "zika.txt", "file_out": "another.txt"}
