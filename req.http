@@ -1,0 +1,10 @@
+@url = http://localhost:8080
+
+GET {{url}}
+###
+GET {{url}}/other
+###
+POST {{url}}/copy
+Content-Type: application/json
+
+{"file_in": "o_ne", "file_out": "another"}
