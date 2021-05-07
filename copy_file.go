@@ -11,8 +11,9 @@ import (
 )
 
 type FileCopyBody struct {
-	FileIn  string `json:"file_in"`
-	FileOut string `json:"file_out"`
+	FileIn    string `json:"file_in"`
+	FileOut   string `json:"file_out"`
+	Overwrite bool   `json:"overwrite"`
 }
 
 func receiveCopyWork(w http.ResponseWriter, r *http.Request) {
@@ -42,10 +43,11 @@ func receiveCopyWork(w http.ResponseWriter, r *http.Request) {
 	os.Chtimes(fileCopySettings.FileOut, nowTime, modTime)
 	data := map[string]interface{}{
 		"bytesWritten": written,
+		"body":         fileCopySettings,
 	}
 	env := Envelope{
 		Message: "Copied successfully",
 		Data:    data,
 	}
-	respond(env, w)
+	respond(env, w, 201)
 }

@@ -11,18 +11,22 @@ type Envelope struct {
 	Data    map[string]interface{} `json:"data"`
 }
 
-func respond(data Envelope, w http.ResponseWriter) {
+func respond(data Envelope, w http.ResponseWriter, status int) {
 	dataStr, _ := json.Marshal(data)
+	w.WriteHeader(status)
 	fmt.Fprintln(w, string(dataStr))
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	tt := map[string]interface{}{}
+	tt := map[string]interface{}{
+		"docs": "future-link",
+	}
 	data := Envelope{
-		Message: "Storage Hub backend index",
+		Message: "FhaaS - File handling as a service",
 		Data:    tt,
 	}
-	respond(data, w)
+
+	respond(data, w, 200)
 }
 
 /*func otherHandler(w http.ResponseWriter, r *http.Request) {

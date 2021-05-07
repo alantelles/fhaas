@@ -1,10 +1,16 @@
 @url = http://localhost:8080
+@json = Content-Type: application/json
+@auth = X-FhaaS-Authorization: zikazikazikad
+@authurl = X-FhaaS-AuthEndpoint: http://localhost:7000
 
 GET {{url}}
-###
-GET {{url}}/other
+{{json}}
+{{auth}}
+{{authurl}}
 ###
 POST {{url}}/copy
-Content-Type: application/json
+{{json}}
+{{auth}}
 
-{"file_in": "zika.txt", "file_out": "another.txt"}
+
+{"file_in": "C:\\Users\\alango\\Documents\\videos\\B084C001_2101258HS02.MXF", "file_out": "C:\\Users\\alango\\Documents\\videos_dest\\B084C001_2101258HS02.MXF", "overwrite": true}
