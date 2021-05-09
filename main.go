@@ -13,10 +13,21 @@ type Envelope struct {
 	Data    map[string]interface{} `json:"data"`
 }
 
+var fhaasAuthEndpoint string
+
 func respond(data Envelope, w http.ResponseWriter, status int) {
 	dataStr, _ := json.Marshal(data)
 	w.WriteHeader(status)
 	fmt.Fprintln(w, string(dataStr))
+}
+
+func selfAuth(w http.ResponseWriter, r *http.Request) {
+	respDate := map[string]interface{}{}
+	data := Envelope{
+		Message: "Self authorization endpoint",
+		Data:    respDate,
+	}
+	respond(data, w, http.StatusOK)
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -31,31 +42,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	respond(data, w, 200)
 }
 
-/*func otherHandler(w http.ResponseWriter, r *http.Request) {
-	sub := map[string]interface{}{
-		"filename": "tops",
-		"length":   950,
-	}
-	tt := map[string]interface{}{
-		"jonga":   905,
-		"teske":   true,
-		"content": "A Marina canta música doida",
-		"data":    sub,
-	}
-	data := &AnyData{
-		Message: "O João acordou",
-		Data:    "Estes são os dados que quero passar",
-		Status:  200,
-		Torbe:   tt,
-	}
-	dataStr, _ := json.Marshal(data)
-
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintln(w, string(dataStr))
-}*/
-
-var fhaasAuthEndpoint string
-
 func selectAuthUrl(authByHeader string) string {
 	authByEnv := os.Getenv("FHAAS_AUTH_URL")
 	if fhaasAuthEndpoint != "" {
@@ -65,7 +51,7 @@ func selectAuthUrl(authByHeader string) string {
 		fmt.Println("Authenticating by environment variable set")
 		return authByEnv
 	} else {
-		fmt.Println("Authenticating by header Authorization")
+		fmt.Println("Authenticating by header Auth")
 		return authByHeader
 	}
 }
