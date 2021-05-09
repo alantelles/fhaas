@@ -2,8 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"net/http"
+	"os"
 )
 
 type Envelope struct {
@@ -52,6 +54,27 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, string(dataStr))
 }*/
 
+var fhaasAuthEndpoint string
+
+func selectAuthUrl(authByHeader string) string {
+	authByEnv := os.Getenv("FHAAS_AUTH_URL")
+	if fhaasAuthEndpoint != "" {
+		fmt.Println("Authenticating by flag set authurl")
+		return fhaasAuthEndpoint
+	} else if authByEnv != "" {
+		fmt.Println("Authenticating by environment variable set")
+		return authByEnv
+	} else {
+		fmt.Println("Authenticating by header Authorization")
+		return authByHeader
+	}
+}
+
 func main() {
+	// execution arguments setting
+	authPtr := flag.String("authurl", "", "Default authentication url")
+	flag.Parse()
+
+	fhaasAuthEndpoint = *authPtr
 	handleRequests()
 }

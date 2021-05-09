@@ -25,8 +25,9 @@ func verifyAuth(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerF
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Checking authorization")
 		authToken := r.Header.Get("X-FhaaS-Authorization")
-		authUrl := r.Header.Get("X-FhaaS-AuthEndpoint")
-
+		authUrlHeader := r.Header.Get("X-FhaaS-AuthEndpoint")
+		authUrl := selectAuthUrl(authUrlHeader)
+		fmt.Printf("AuthUrl used: %s\n", authUrl)
 		if authToken != "" && authUrl != "" {
 			fmt.Println("Trying to auth")
 			_, code := doPost(authUrl, fmt.Sprintf(`{"token": "%s"}`, authToken))

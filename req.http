@@ -1,7 +1,7 @@
 @url = http://localhost:8080
 @json = Content-Type: application/json
-@auth = X-FhaaS-Authorization: zikazikazikad
-@authurl = X-FhaaS-AuthEndpoint: http://localhost:7000
+@auth = X-FhaaS-Authorization: zikazikazika
+@authurl = X-FhaaS-AuthEndpoint: http://localhost:7002
 
 GET {{url}}
 {{json}}
