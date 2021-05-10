@@ -17,6 +17,14 @@ func getAuthUrlUsed(w http.ResponseWriter) string {
 	return w.Header().Get(H_AUTH_URL_USED)
 }
 
+func getAuthContentType(w http.ResponseWriter) string {
+	content := w.Header().Get(H_AUTH_CONTENT_TYPE)
+	if content == "" {
+		return "application/json"
+	}
+	return content
+}
+
 func respond(data Envelope, w http.ResponseWriter, status int) {
 	dataStr, _ := json.Marshal(data)
 	w.WriteHeader(status)

@@ -35,14 +35,20 @@ func verifyAuth(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerF
 		authUrl := selectAuthUrl(authUrlHeader)
 		w.Header().Set(H_AUTH_URL_USED, authUrl)
 		fmt.Printf("AuthUrl used: %s\n", authUrl)
+		logDebug.Printf("%s - Auth URL used for this request: \n", getRequestId(w))
 		if authToken != "" && authUrl != "" {
 			fmt.Println("Trying to auth")
-			_, code := doPost(authUrl, fmt.Sprintf(`{"token": "%s"}`, authToken))
+			_, code, err := doPost(authUrl, fmt.Sprintf("%s", authToken), getAuthContentType(w))
+			if err != nil {
+				fmt.Println(err)
+				logError.Printf("%s - Authentication process failed: %v", getRequestId(w), err)
+			}
 			if code != 200 {
 				fmt.Printf("Not authorized, status code: %d\n", code)
 				respondNotAuthorized(w, r)
 			} else {
 				fmt.Println("Authorized")
+				logError.Printf("%s - Authorized. Processing request.", getRequestId(w))
 				endpoint(w, r)
 			}
 		} else {

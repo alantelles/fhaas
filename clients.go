@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -20,14 +19,14 @@ func createClient(timeout int) *http.Client {
 	return client
 }
 
-func doPost(url string, body string) (string, int) {
+func doPost(url string, body string, contentType string) (string, int, error) {
 	client := createClient(20)
 	r := strings.NewReader(body)
-	resp, err := client.Post(url, "application/json", r)
+	resp, err := client.Post(url, contentType, r)
 	if err != nil {
-		fmt.Errorf(err.Error())
+		return "", 500, err
 	}
 	defer resp.Body.Close()
 	respStr, _ := io.ReadAll(resp.Body)
-	return string(respStr), resp.StatusCode
+	return string(respStr), resp.StatusCode, nil
 }
