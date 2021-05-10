@@ -1,9 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
-	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -12,13 +11,12 @@ type Envelope struct {
 	Data    map[string]interface{} `json:"data"`
 }
 
-var fhaasAuthEndpoint string
-
-func respond(data Envelope, w http.ResponseWriter, status int) {
-	dataStr, _ := json.Marshal(data)
-	w.WriteHeader(status)
-	fmt.Fprintln(w, string(dataStr))
-}
+var (
+	fhaasAuthEndpoint string
+	logWarn           *log.Logger
+	logDebug          *log.Logger
+	logError          *log.Logger
+)
 
 func selfAuth(w http.ResponseWriter, r *http.Request) {
 	respDate := map[string]interface{}{}
@@ -37,15 +35,22 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		Message: "FhaaS - File handling as a service",
 		Data:    tt,
 	}
+	logDebug.Printf(logRequest(r))
 
 	respond(data, w, 200)
 }
 
 func main() {
+	SetupCloseHandler()
 	// execution arguments setting
+	configureLogger()
+	logDebug.Println("Starting FhaaS")
 	authPtr := flag.String("authurl", "", "Default authentication url")
 	flag.Parse()
-
 	fhaasAuthEndpoint = *authPtr
+	if fhaasAuthEndpoint == "" {
+		logWarn.Println("Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable")
+	}
 	handleRequests()
+	logDebug.Println("Stopping FhaaS")
 }

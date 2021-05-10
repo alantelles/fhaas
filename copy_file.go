@@ -40,6 +40,7 @@ func copyFile(fileCopySettings FileCopyBody) (int, error) {
 }
 
 func copyFileHandler(w http.ResponseWriter, r *http.Request) {
+	logDebug.Printf(logRequest(r))
 	defer r.Body.Close()
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	var fileCopySettings FileCopyBody
