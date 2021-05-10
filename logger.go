@@ -32,6 +32,6 @@ func logRequest(w http.ResponseWriter, r *http.Request) string {
 	if referer == "" {
 		referer = "(referer not sent)"
 	}
-	out := fmt.Sprintf("[request] id: %s - %s to %s from %s", w.Header().Get("X-FhaaS-RequestId"), r.Method, r.URL.Path, referer)
+	out := fmt.Sprintf("[request] id: %s - %s to %s from %s", getRequestId(w), r.Method, r.URL.Path, referer)
 	return out
 }

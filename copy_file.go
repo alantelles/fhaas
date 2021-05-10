@@ -39,7 +39,7 @@ func copyFile(fileCopySettings FileCopyBody) (int, error) {
 	return int(written), err
 }
 
-func copyInterfaceSync(fileCopySettings FileCopyBody) (Envelope, int) {
+func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, int) {
 	var status int
 	written, err := copyFile(fileCopySettings)
 	data := map[string]interface{}{
@@ -50,9 +50,11 @@ func copyInterfaceSync(fileCopySettings FileCopyBody) (Envelope, int) {
 		Data: data,
 	}
 	if err != nil {
+		logError.Printf("While processing copy on %s: %v\n", reqId, err)
 		env.Message = "Operation failed"
 		status = http.StatusInternalServerError
 	} else {
+		logDebug.Printf("%s - File %s copied to %s successfully\n", reqId, fileCopySettings.FileIn, fileCopySettings.FileOut)
 		env.Message = "File copied successfully"
 		status = http.StatusCreated
 	}
@@ -71,7 +73,7 @@ func copyFileHandler(w http.ResponseWriter, r *http.Request) {
 	var fileCopySettings FileCopyBody
 	json.Unmarshal(reqBody, &fileCopySettings)
 	if isSyncRequest(r) {
-		env, status = copyInterfaceSync(fileCopySettings)
+		env, status = copyInterfaceSync(getRequestId(w), fileCopySettings)
 	}
 	respond(env, w, status)
 }

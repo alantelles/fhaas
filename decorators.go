@@ -11,7 +11,8 @@ func addDefaultHeaders(endpoint func(http.ResponseWriter, *http.Request)) http.H
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Adding default headers")
 		w.Header().Set("Content-Type", "application/json")
-		w.Header().Set("X-FhaaS-RequestId", uuid.NewString())
+		w.Header().Set(H_REQUEST_ID, uuid.NewString())
+
 		endpoint(w, r)
 	})
 }
@@ -21,15 +22,18 @@ func respondNotAuthorized(w http.ResponseWriter, r *http.Request) {
 		Message: "Not-Authorized",
 		Data:    make(map[string]interface{}),
 	}
+	logWarn.Printf("%s - FhaaS received a request that was not authorized. It may be a token/url mistake but also may have came from an undesired/malicious requester. We suggest you to check your FhaaS network entrypoints\n", getRequestId(w))
+	logError.Printf("%s - This request was not authorized by endpoint %s\n", getRequestId(w), getAuthUrlUsed(w))
 	respond(env, w, 401)
 }
 
 func verifyAuth(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Checking authorization")
-		authToken := r.Header.Get("X-FhaaS-Authorization")
-		authUrlHeader := r.Header.Get("X-FhaaS-AuthEndpoint")
+		authToken := r.Header.Get(H_AUTH_TOKEN)
+		authUrlHeader := r.Header.Get(H_AUTH_URL)
 		authUrl := selectAuthUrl(authUrlHeader)
+		w.Header().Set(H_AUTH_URL_USED, authUrl)
 		fmt.Printf("AuthUrl used: %s\n", authUrl)
 		if authToken != "" && authUrl != "" {
 			fmt.Println("Trying to auth")

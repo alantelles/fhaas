@@ -1,12 +1,13 @@
 @url = http://localhost:8080
 @json = Content-Type: application/json
-@auth = X-FhaaS-Authorization: zikazikazika
-@authurl = X-FhaaS-AuthEndpoint: http://localhost:7002
+@auth = X-Fhaas-Auth-Token: zikazikazikak
+@authurl = X-Fhaas-Auth-Url: http://localhost:7002
 @referer = Referer: 192.168.1.3
 
 
 GET {{url}}
 {{auth}}
+{{authurl}}
 {{referer}}
 ###
 POST {{url}}/copy

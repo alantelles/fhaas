@@ -9,6 +9,14 @@ import (
 	"syscall"
 )
 
+func getRequestId(w http.ResponseWriter) string {
+	return "Request " + w.Header().Get(H_REQUEST_ID)
+}
+
+func getAuthUrlUsed(w http.ResponseWriter) string {
+	return w.Header().Get(H_AUTH_URL_USED)
+}
+
 func respond(data Envelope, w http.ResponseWriter, status int) {
 	dataStr, _ := json.Marshal(data)
 	w.WriteHeader(status)

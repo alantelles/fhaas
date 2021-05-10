@@ -11,6 +11,16 @@ type Envelope struct {
 	Data    map[string]interface{} `json:"data"`
 }
 
+// FhaaS util headers names
+const H_REQUEST_ID = "X-Fhaas-Request-Id"
+const H_AUTH_URL = "X-Fhaas-Auth-Url"
+const H_AUTH_URL_USED = "X-Fhaas-Auth-Url-Used"
+const H_AUTH_TOKEN = "X-Fhaas-Auth-Token"
+const H_IS_ASYNC = "X-Fhaas-Async"
+
+// FhaaS util environment variables names
+const E_FHAAS_AUTH_URL = "FHAAS_AUTH_URL"
+
 var (
 	fhaasAuthEndpoint string
 	logWarn           *log.Logger

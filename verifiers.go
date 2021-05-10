@@ -7,7 +7,7 @@ import (
 )
 
 func selectAuthUrl(authByHeader string) string {
-	authByEnv := os.Getenv("FHAAS_AUTH_URL")
+	authByEnv := os.Getenv(E_FHAAS_AUTH_URL)
 	if fhaasAuthEndpoint != "" {
 		fmt.Println("Authenticating by flag set authurl")
 		return fhaasAuthEndpoint
@@ -21,7 +21,7 @@ func selectAuthUrl(authByHeader string) string {
 }
 
 func isSyncRequest(r *http.Request) bool {
-	isAsync := r.Header.Get("X-FhaaS-Async")
+	isAsync := r.Header.Get(H_IS_ASYNC)
 	if isAsync == "false" || isAsync == "" {
 		return true
 	}
