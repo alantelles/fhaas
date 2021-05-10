@@ -3,12 +3,15 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/google/uuid"
 )
 
 func addDefaultHeaders(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Adding default headers")
 		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("X-FhaaS-RequestId", uuid.NewString())
 		endpoint(w, r)
 	})
 }

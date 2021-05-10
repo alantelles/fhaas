@@ -22,7 +22,7 @@ func configureLogger() {
 	logError = log.New(logFile, "ERROR: ", log.Ldate|log.Lmicroseconds|log.Lshortfile)
 }
 
-func logRequest(r *http.Request) string {
+func logRequest(w http.ResponseWriter, r *http.Request) string {
 	referer := r.Header.Get("X-Real-IP") // relying in NGINX proxy convention
 	if referer == "" {
 		// trying from referer
@@ -32,6 +32,6 @@ func logRequest(r *http.Request) string {
 	if referer == "" {
 		referer = "(referer not sent)"
 	}
-	out := fmt.Sprintf("[request] %s to %s from %s", r.Method, r.URL.Path, referer)
+	out := fmt.Sprintf("[request] id: %s - %s to %s from %s", w.Header().Get("X-FhaaS-RequestId"), r.Method, r.URL.Path, referer)
 	return out
 }

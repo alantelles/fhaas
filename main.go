@@ -35,7 +35,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		Message: "FhaaS - File handling as a service",
 		Data:    tt,
 	}
-	logDebug.Printf(logRequest(r))
+	logDebug.Printf(logRequest(w, r))
 
 	respond(data, w, 200)
 }

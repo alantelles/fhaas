@@ -39,12 +39,8 @@ func copyFile(fileCopySettings FileCopyBody) (int, error) {
 	return int(written), err
 }
 
-func copyFileHandler(w http.ResponseWriter, r *http.Request) {
-	logDebug.Printf(logRequest(r))
-	defer r.Body.Close()
-	reqBody, _ := ioutil.ReadAll(r.Body)
-	var fileCopySettings FileCopyBody
-	json.Unmarshal(reqBody, &fileCopySettings)
+func copyInterfaceSync(fileCopySettings FileCopyBody) (Envelope, int) {
+	var status int
 	written, err := copyFile(fileCopySettings)
 	data := map[string]interface{}{
 		"bytesWritten": written,
@@ -55,9 +51,27 @@ func copyFileHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	if err != nil {
 		env.Message = "Operation failed"
-		respond(env, w, http.StatusInternalServerError)
+		status = http.StatusInternalServerError
 	} else {
 		env.Message = "File copied successfully"
-		respond(env, w, http.StatusCreated)
+		status = http.StatusCreated
 	}
+	return env, status
+}
+
+func copyFileHandler(w http.ResponseWriter, r *http.Request) {
+	var (
+		env    Envelope
+		status int
+	)
+	logDebug.Printf(logRequest(w, r))
+	defer r.Body.Close()
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	logDebug.Println()
+	var fileCopySettings FileCopyBody
+	json.Unmarshal(reqBody, &fileCopySettings)
+	if isSyncRequest(r) {
+		env, status = copyInterfaceSync(fileCopySettings)
+	}
+	respond(env, w, status)
 }
