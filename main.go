@@ -60,7 +60,7 @@ func main() {
 	flag.Parse()
 	fhaasAuthEndpoint = *authPtr
 	if fhaasAuthEndpoint == "" {
-		logWarn.Println("Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable")
+		logWarn.Println("Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable (will be checked in every request). If not set, will use " + H_AUTH_URL + " header of request. This may be potentially dangerous since any url able to authorize operation can be used")
 	}
 	handleRequests()
 	logDebug.Println("Stopping FhaaS")
