@@ -26,6 +26,14 @@ func respondNotAuthorized(w http.ResponseWriter, r *http.Request) {
 	respond(env, w, 401)
 }
 
+// func checkIfIsAsync(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
+// 	return http.HandleFunc(func(w http.ResponseWriter, r *http.Request) {
+// 		if !isSyncRequest(r) {
+
+// 		}
+// 	})
+// }
+
 func verifyAuth(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		reqId := getRequestId(w)
@@ -49,15 +57,11 @@ func verifyAuth(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerF
 				logError.Printf("%s - This request was not authorized by endpoint %s\n", reqId, authUrl)
 				logDebug.Printf("%s - Authorization response: %s\n", reqId, resp)
 				logDebug.Printf("%s - Authorization response code: %d\n", reqId, code)
+				logDebug.Printf("%s - Authorization token used: %s\n", reqId, showToken(authToken))
 				respondNotAuthorized(w, r)
 			} else {
 				fmt.Println("Authorized")
-				if allowLogTokens {
-					logError.Printf("%s - Authorized by %s with token %s. Processing request.\n", reqId, authUrl, authToken)
-				} else {
-					logError.Printf("%s - Authorized by %s with token [logtokens disabled]. Processing request.", reqId, authUrl)
-				}
-
+				logError.Printf("%s - Authorized by %s with token [logtokens disabled]. Processing request.", reqId, showToken(authUrl))
 				endpoint(w, r)
 			}
 		} else {

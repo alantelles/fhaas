@@ -35,3 +35,11 @@ func logRequest(w http.ResponseWriter, r *http.Request) string {
 	out := fmt.Sprintf("[request] id: %s - %s to %s from %s", getRequestId(w), r.Method, r.URL.Path, referer)
 	return out
 }
+
+func showToken(token string) string {
+	if allowLogTokens {
+		return token
+	} else {
+		return "[logtokens disabled]"
+	}
+}

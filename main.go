@@ -11,12 +11,16 @@ type Envelope struct {
 }
 
 // FhaaS util headers names
+// TODO: explain each header function
 const H_REQUEST_ID = "X-Fhaas-Request-Id"
 const H_AUTH_URL = "X-Fhaas-Auth-Url"
 const H_AUTH_URL_USED = "X-Fhaas-Auth-Url-Used"
 const H_AUTH_TOKEN = "X-Fhaas-Auth-Token"
 const H_IS_ASYNC = "X-Fhaas-Async"
 const H_AUTH_CONTENT_TYPE = "X-Fhaas-Auth-Content-Type"
+const H_SEND_STATUS_TO = "X-Fhaas-Send-Status-To"
+const H_SEND_STATUS_TO_AUTH = "X-Fhaas-Send-Status-To-Auth"
+const H_SEND_STATUS_TO_AUTH_TYPE = "X-Fhaas-Send-Status-To-Auth-Type"
 
 // FhaaS util environment variables names
 const E_FHAAS_AUTH_URL = "FHAAS_AUTH_URL"

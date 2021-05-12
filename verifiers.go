@@ -20,10 +20,12 @@ func selectAuthUrl(authByHeader string) string {
 	}
 }
 
-func isSyncRequest(r *http.Request) bool {
+func isSyncRequest(reqId int, r *http.Request) bool {
 	isAsync := r.Header.Get(H_IS_ASYNC)
 	if isAsync == "false" || isAsync == "" {
+		logDebug.Printf("%s - Request is sync\n", reqId)
 		return true
 	}
+	logDebug.Printf("%s - Request is async\n", reqId)
 	return false
 }
