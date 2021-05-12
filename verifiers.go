@@ -20,7 +20,7 @@ func selectAuthUrl(authByHeader string) string {
 	}
 }
 
-func isSyncRequest(reqId int, r *http.Request) bool {
+func isSyncRequest(reqId string, r *http.Request) bool {
 	isAsync := r.Header.Get(H_IS_ASYNC)
 	if isAsync == "false" || isAsync == "" {
 		logDebug.Printf("%s - Request is sync\n", reqId)
@@ -28,4 +28,28 @@ func isSyncRequest(reqId int, r *http.Request) bool {
 	}
 	logDebug.Printf("%s - Request is async\n", reqId)
 	return false
+}
+
+func fileExists(fileName string) bool {
+	info, err := os.Stat(fileName)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
+}
+
+func showToken(token string) string {
+	if allowLogTokens {
+		return token
+	} else {
+		return "[logtokens disabled]"
+	}
+}
+
+func showIfNotBlank(value string) string {
+	if value == "" {
+		return "[value not set]"
+	} else {
+		return value
+	}
 }

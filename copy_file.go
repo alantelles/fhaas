@@ -17,33 +17,49 @@ type FileCopyBody struct {
 	Overwrite bool   `json:"overwrite"`
 }
 
-func copyFile(fileCopySettings FileCopyBody) (int, error) {
-	orig, err := os.Open(fileCopySettings.FileIn)
-	about, _ := os.Stat(fileCopySettings.FileIn)
-	modTime := about.ModTime()
-	nowTime := time.Now().Local()
-	if err != nil {
-		return 0, err
-	}
-	defer orig.Close()
+func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
+	logDebug.Printf("%s - Starting copy.", reqId)
+	logDebug.Printf("%s - FileIn: %s", reqId, fileCopySettings.FileIn)
+	logDebug.Printf("%s - FileOut: %s", reqId, fileCopySettings.FileOut)
+	logDebug.Printf("%s - Overwrite: %v", reqId, fileCopySettings.Overwrite)
 
-	new, err := os.Create(fileCopySettings.FileOut)
-	if err != nil {
-		return 0, err
-	}
-	defer new.Close()
+	destExists := fileExists(fileCopySettings.FileOut)
+	if fileCopySettings.Overwrite || !destExists {
+		orig, err := os.Open(fileCopySettings.FileIn)
+		if err != nil {
+			return 0, err
+		}
+		about, err := os.Stat(fileCopySettings.FileIn)
+		modTime := about.ModTime()
+		nowTime := time.Now().Local()
+		if err != nil {
+			return 0, err
+		}
+		defer orig.Close()
 
-	written, err := io.Copy(new, orig)
-	if err != nil {
-		return 0, err
+		new, err := os.Create(fileCopySettings.FileOut)
+		if err != nil {
+			return 0, err
+		}
+		defer new.Close()
+
+		written, err := io.Copy(new, orig)
+		if err != nil {
+			return 0, err
+		}
+		os.Chtimes(fileCopySettings.FileOut, nowTime, modTime)
+		logDebug.Printf("%s - File %s copied to %s successfully\n", reqId, fileCopySettings.FileIn, fileCopySettings.FileOut)
+		return int(written), err
+	} else {
+		logDebug.Printf("%s - Destination file \"%s\" exists. No operations done\n", reqId, fileCopySettings.FileOut)
+		return -1, nil
 	}
-	os.Chtimes(fileCopySettings.FileOut, nowTime, modTime)
-	return int(written), err
+
 }
 
 func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, int) {
 	var status int
-	written, err := copyFile(fileCopySettings)
+	written, err := copyFile(reqId, fileCopySettings)
 	data := map[string]interface{}{
 		"bytesWritten": written,
 		"body":         fileCopySettings,
@@ -53,28 +69,37 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 	}
 	if err != nil {
 		logError.Printf("While processing copy on %s: %v\n", reqId, err)
-		env.Message = "Operation failed"
+		env.Message = fmt.Sprintf("Operation failed: %v", err)
 		status = http.StatusInternalServerError
 	} else {
-		logDebug.Printf("%s - File %s copied to %s successfully\n", reqId, fileCopySettings.FileIn, fileCopySettings.FileOut)
-		env.Message = "File copied successfully"
-		status = http.StatusCreated
+		if written > -1 {
+			env.Message = "File copied successfully"
+			status = http.StatusCreated
+		} else {
+			env.Message = "File not copied due to already existing and overwrite was set to false"
+			status = http.StatusOK
+		}
+
 	}
 	return env, status
 }
 
 func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo string, sendStatusAuth string) {
 	var status int
-	written, err := copyFile(fileCopySettings)
+	written, err := copyFile(reqId, fileCopySettings)
 	env := Envelope{}
 	if err != nil {
-		logError.Printf("While processing copy on %s: %v\n", reqId, err)
-		env.Message = "Operation failed"
+		logError.Printf("Error while processing copy on %s: %v\n", reqId, err)
+		env.Message = fmt.Sprintf("Operation failed: %v", err)
 		status = http.StatusInternalServerError
 	} else {
-		logDebug.Printf("%s - File %s copied to %s successfully\n", reqId, fileCopySettings.FileIn, fileCopySettings.FileOut)
-		env.Message = "File copied successfully"
-		status = http.StatusCreated
+		if written > -1 {
+			env.Message = "File copied successfully"
+			status = http.StatusCreated
+		} else {
+			env.Message = "File not copied due to already existing and overwrite was set to false"
+			status = http.StatusOK
+		}
 	}
 	data := map[string]interface{}{
 		"bytesWritten": written,
@@ -83,10 +108,11 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo 
 	}
 	env.Data = data
 	if sendStatusTo != "" {
+		logDebug.Printf("%s - Sending status to %s", reqId, sendStatusTo)
 		body, _ := json.Marshal(env)
 		req, err := http.NewRequest("POST", sendStatusTo, bytes.NewReader(body))
 		if err != nil {
-			fmt.Println(err)
+			logError.Printf("%s - Error while creating request to send status: %v", reqId, err)
 		}
 		if sendStatusAuth != "" {
 			req.Header.Set("Authorization", sendStatusAuth)
@@ -95,7 +121,7 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo 
 		client := createClient(20)
 		resp, err := client.Do(req)
 		if err != nil {
-			fmt.Println(err)
+			logError.Printf("%s - Error while sending operation status: %v", reqId, err)
 		}
 		defer resp.Body.Close()
 		respBytes, _ := io.ReadAll(resp.Body)
@@ -122,23 +148,31 @@ func copyFileHandler(w http.ResponseWriter, r *http.Request) {
 		status int
 	)
 	reqId := getRequestId(w)
-	logDebug.Printf(logRequest(w, r))
+
 	defer r.Body.Close()
 	reqBody, _ := ioutil.ReadAll(r.Body)
-	logDebug.Println("%s - Starting copy process handling\n", reqId)
-	logDebug.Println("%s - Request body: ", reqId, string(reqBody))
+	logDebug.Printf("%s - Starting copy process handling\n", reqId)
+	logDebug.Printf("%s - Request body: %s\n", reqId, string(reqBody))
 	var fileCopySettings FileCopyBody
 	json.Unmarshal(reqBody, &fileCopySettings)
 	if isSyncRequest(reqId, r) {
 		env, status = copyInterfaceSync(reqId, fileCopySettings)
 	} else {
+		sendStatusTo := r.Header.Get(H_SEND_STATUS_TO)
+		sendStatusToAuth := r.Header.Get(H_SEND_STATUS_TO_AUTH)
+		logDebug.Printf("%s - Status will be sent to %s", reqId, showIfNotBlank(sendStatusTo))
+		if sendStatusToAuth != "" {
+			logDebug.Printf("%s - Status will send the following Authorization header: %s", reqId, showToken(sendStatusToAuth))
+		}
 		env, status = copyInterfaceASync(
 			reqId,
 			fileCopySettings,
-			w.Header().Get(H_SEND_STATUS_TO),
-			w.Header().Get(H_SEND_STATUS_TO_AUTH),
+			sendStatusTo,
+			sendStatusToAuth,
 		)
 	}
-	logDebug.Printf("%s - Copy process response: %v", reqId, env)
+	envBytes, _ := json.Marshal(env)
+
+	logDebug.Printf("%s - Copy process response: %s", reqId, string(envBytes))
 	respond(env, w, status)
 }

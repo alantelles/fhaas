@@ -9,10 +9,11 @@ import (
 
 func addDefaultHeaders(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		reqId := uuid.NewString()
+		logDebug.Printf(logRequest(reqId, r))
 		fmt.Println("Adding default headers")
 		w.Header().Set("Content-Type", "application/json")
-		w.Header().Set(H_REQUEST_ID, uuid.NewString())
-
+		w.Header().Set(H_REQUEST_ID, reqId)
 		endpoint(w, r)
 	})
 }
@@ -61,7 +62,7 @@ func verifyAuth(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerF
 				respondNotAuthorized(w, r)
 			} else {
 				fmt.Println("Authorized")
-				logError.Printf("%s - Authorized by %s with token [logtokens disabled]. Processing request.", reqId, showToken(authUrl))
+				logDebug.Printf("%s - Authorized by %s with token %s. Processing request.", reqId, authUrl, showToken(authToken))
 				endpoint(w, r)
 			}
 		} else {
