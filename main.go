@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"log"
 	"net/http"
 )
@@ -24,9 +23,11 @@ const E_FHAAS_AUTH_URL = "FHAAS_AUTH_URL"
 
 var (
 	fhaasAuthEndpoint string
-	logWarn           *log.Logger
-	logDebug          *log.Logger
-	logError          *log.Logger
+	allowLogTokens    bool
+
+	logWarn  *log.Logger
+	logDebug *log.Logger
+	logError *log.Logger
 )
 
 func selfAuth(w http.ResponseWriter, r *http.Request) {
@@ -56,12 +57,7 @@ func main() {
 	// execution arguments setting
 	configureLogger()
 	logDebug.Println("Starting FhaaS")
-	authPtr := flag.String("authurl", "", "Default authentication url")
-	flag.Parse()
-	fhaasAuthEndpoint = *authPtr
-	if fhaasAuthEndpoint == "" {
-		logWarn.Println("Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable (will be checked in every request). If not set, will use " + H_AUTH_URL + " header of request. This may be potentially dangerous since any url able to authorize operation can be used")
-	}
+	setFlags()
 	handleRequests()
 	logDebug.Println("Stopping FhaaS")
 }

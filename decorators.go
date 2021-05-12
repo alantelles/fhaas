@@ -52,7 +52,12 @@ func verifyAuth(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerF
 				respondNotAuthorized(w, r)
 			} else {
 				fmt.Println("Authorized")
-				logError.Printf("%s - Authorized. Processing request.", reqId)
+				if allowLogTokens {
+					logError.Printf("%s - Authorized by %s with token %s. Processing request.\n", reqId, authUrl, authToken)
+				} else {
+					logError.Printf("%s - Authorized by %s with token [logtokens disabled]. Processing request.", reqId, authUrl)
+				}
+
 				endpoint(w, r)
 			}
 		} else {
