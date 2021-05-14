@@ -15,7 +15,12 @@ GET {{url}}
 POST {{url}}/copy
 {{json}}
 {{auth}}
+{{sendstatusto}}
+###
+PUT {{url}}/move
+{{json}}
+{{auth}}
 {{async}}
 {{sendstatusto}}
 
-{"file_in": "C:\\Users\\alango\\Documents\\videos\\B084C001_2101258HS02.MXF", "file_out": "C:\\Users\\alango\\Documents\\videos_dest\\B084C001_2101258HS02.MXF", "overwrite": true}
+{"file_in": "C:\\Users\\alango\\Documents\\videos\\topzeira.mxf", "file_out": "C:\\Users\\alango\\Documents\\videos_dest\\topzeira.mxf", "overwrite": true}
