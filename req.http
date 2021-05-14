@@ -1,9 +1,11 @@
 @url = http://localhost:8080
 @json = Content-Type: application/json
-@auth = X-Fhaas-Auth-Token: {"token": "zikazikazikfa"}
+@auth = X-Fhaas-Auth-Token: {"token": "zikazikazika"}
 @authurl = X-Fhaas-Auth-Url: http://localhost:7002
 @referer = Referer: 192.168.1.3
 @authtype = X-Fhaas-Auth-Content-Type: application/json
+@async = X-Fhaas-Async: true
+@sendstatusto = X-Fhaas-Send-Status-To: http://localhost:7000/status
 
 
 GET {{url}}
@@ -13,6 +15,7 @@ GET {{url}}
 POST {{url}}/copy
 {{json}}
 {{auth}}
-
+{{async}}
+{{sendstatusto}}
 
 {"file_in": "C:\\Users\\alango\\Documents\\videos\\B084C001_2101258HS02.MXF", "file_out": "C:\\Users\\alango\\Documents\\videos_dest\\B084C001_2101258HS02.MXF", "overwrite": true}
