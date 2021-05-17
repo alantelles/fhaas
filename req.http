@@ -16,11 +16,19 @@ POST {{url}}/copy
 {{json}}
 {{auth}}
 {{sendstatusto}}
+
+[{"file_in": "C:\\Users\\alango\\Documents\\videos\\B084C003_210125I4S02.MXF", "file_out": "C:\\Users\\alango\\Documents\\videos_dest\\B084C003_210125I4S02.MXF", "overwrite": true}, {"file_in": "C:\\Users\\alango\\Documents\\videos\\B084C005_210125D4S02.MXF", "file_out": "C:\\Users\\alango\\Documents\\videos_dest\\topzeira.mxf", "overwrite": true}]
+###
+POST {{url}}/copy
+{{json}}
+{{auth}}
+{{sendstatusto}}
+
+{"file_in":"C:\\Users\\alango\\Documents\\videos\\B084C003_210125I4S02.MXF", "file_out": "C:\\Users\\alango\\Documents\\videos_dest\\B084C003_210125I4S02.MXF", "overwrite": true}
 ###
 PUT {{url}}/move
 {{json}}
 {{auth}}
-{{async}}
 {{sendstatusto}}
 
 {"file_in": "C:\\Users\\alango\\Documents\\videos\\topzeira.mxf", "file_out": "C:\\Users\\alango\\Documents\\videos_dest\\topzeira.mxf", "overwrite": true}

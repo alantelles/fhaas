@@ -9,6 +9,20 @@ import (
 	"syscall"
 )
 
+func createBadRequestResponse(body []byte) (Envelope, int) {
+	var env Envelope
+	var status int
+	data := map[string]interface{}{
+		"body": string(body),
+	}
+	env = Envelope{
+		Message: "Fhaas received a malformed request",
+		Data:    data,
+	}
+	status = http.StatusBadRequest
+	return env, status
+}
+
 func getRequestId(w http.ResponseWriter) string {
 	return "Request " + w.Header().Get(H_REQUEST_ID)
 }

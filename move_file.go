@@ -114,8 +114,9 @@ func moveAsyncWrapper(reqId string, fileMoveSettings FileMoveBody, sendStatusTo 
 	}
 	env.Data = data
 	if sendStatusTo != "" {
-		logDebug.Printf("%s - Sending status to %s", reqId, sendStatusTo)
 		body, _ := json.Marshal(env)
+		logDebug.Printf("%s - Status: %s", reqId, string(body))
+		logDebug.Printf("%s - Sending status to %s", reqId, sendStatusTo)
 		req, err := http.NewRequest("POST", sendStatusTo, bytes.NewReader(body))
 		if err != nil {
 			logError.Printf("%s - Error while creating request to send status: %v", reqId, err)
@@ -160,23 +161,29 @@ func moveFileHandler(w http.ResponseWriter, r *http.Request) {
 	logDebug.Printf("%s - Starting move process handling\n", reqId)
 	logDebug.Printf("%s - Request body: %s\n", reqId, string(reqBody))
 	var fileMoveSettings FileMoveBody
-	json.Unmarshal(reqBody, &fileMoveSettings)
-	if isSyncRequest(reqId, r) {
-		env, status = moveInterfaceSync(reqId, fileMoveSettings)
+	err := json.Unmarshal(reqBody, &fileMoveSettings)
+	if err != nil {
+		logError.Printf("%s - Fhaas received a malformed request: %s", reqId, err)
+		env, status = createBadRequestResponse(reqBody)
 	} else {
-		sendStatusTo := r.Header.Get(H_SEND_STATUS_TO)
-		sendStatusToAuth := r.Header.Get(H_SEND_STATUS_TO_AUTH)
-		logDebug.Printf("%s - Status will be sent to %s", reqId, showIfNotBlank(sendStatusTo))
-		if sendStatusToAuth != "" {
-			logDebug.Printf("%s - Status will send the following Authorization header: %s", reqId, showToken(sendStatusToAuth))
+		if isSyncRequest(reqId, r) {
+			env, status = moveInterfaceSync(reqId, fileMoveSettings)
+		} else {
+			sendStatusTo := r.Header.Get(H_SEND_STATUS_TO)
+			sendStatusToAuth := r.Header.Get(H_SEND_STATUS_TO_AUTH)
+			logDebug.Printf("%s - Status will be sent to %s", reqId, showIfNotBlank(sendStatusTo))
+			if sendStatusToAuth != "" {
+				logDebug.Printf("%s - Status will send the following Authorization header: %s", reqId, showToken(sendStatusToAuth))
+			}
+			env, status = moveInterfaceASync(
+				reqId,
+				fileMoveSettings,
+				sendStatusTo,
+				sendStatusToAuth,
+			)
 		}
-		env, status = moveInterfaceASync(
-			reqId,
-			fileMoveSettings,
-			sendStatusTo,
-			sendStatusToAuth,
-		)
 	}
+
 	envBytes, _ := json.Marshal(env)
 
 	logDebug.Printf("%s - Move process response: %s", reqId, string(envBytes))

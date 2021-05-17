@@ -108,8 +108,9 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo 
 	}
 	env.Data = data
 	if sendStatusTo != "" {
-		logDebug.Printf("%s - Sending status to %s", reqId, sendStatusTo)
 		body, _ := json.Marshal(env)
+		logDebug.Printf("%s - Status: %s", reqId, string(body))
+		logDebug.Printf("%s - Sending status to %s", reqId, sendStatusTo)
 		req, err := http.NewRequest("POST", sendStatusTo, bytes.NewReader(body))
 		if err != nil {
 			logError.Printf("%s - Error while creating request to send status: %v", reqId, err)
@@ -154,22 +155,78 @@ func copyFileHandler(w http.ResponseWriter, r *http.Request) {
 	logDebug.Printf("%s - Starting copy process handling\n", reqId)
 	logDebug.Printf("%s - Request body: %s\n", reqId, string(reqBody))
 	var fileCopySettings FileCopyBody
-	json.Unmarshal(reqBody, &fileCopySettings)
-	if isSyncRequest(reqId, r) {
-		env, status = copyInterfaceSync(reqId, fileCopySettings)
+	err := json.Unmarshal(reqBody, &fileCopySettings)
+	if err != nil {
+		logError.Printf("%s - Fhaas received a malformed request: %s", reqId, err)
+		env, status = createBadRequestResponse(reqBody)
 	} else {
-		sendStatusTo := r.Header.Get(H_SEND_STATUS_TO)
-		sendStatusToAuth := r.Header.Get(H_SEND_STATUS_TO_AUTH)
-		logDebug.Printf("%s - Status will be sent to %s", reqId, showIfNotBlank(sendStatusTo))
-		if sendStatusToAuth != "" {
-			logDebug.Printf("%s - Status will send the following Authorization header: %s", reqId, showToken(sendStatusToAuth))
+		if isSyncRequest(reqId, r) {
+			env, status = copyInterfaceSync(reqId, fileCopySettings)
+		} else {
+			sendStatusTo := r.Header.Get(H_SEND_STATUS_TO)
+			sendStatusToAuth := r.Header.Get(H_SEND_STATUS_TO_AUTH)
+			logDebug.Printf("%s - Status will be sent to %s", reqId, showIfNotBlank(sendStatusTo))
+			if sendStatusToAuth != "" {
+				logDebug.Printf("%s - Status will send the following Authorization header: %s", reqId, showToken(sendStatusToAuth))
+			}
+			env, status = copyInterfaceASync(
+				reqId,
+				fileCopySettings,
+				sendStatusTo,
+				sendStatusToAuth,
+			)
 		}
-		env, status = copyInterfaceASync(
-			reqId,
-			fileCopySettings,
-			sendStatusTo,
-			sendStatusToAuth,
-		)
+	}
+	envBytes, _ := json.Marshal(env)
+
+	logDebug.Printf("%s - Copy process response: %s", reqId, string(envBytes))
+	respond(env, w, status)
+}
+
+func copyListInterfaceSync(reqId string, fileListCopySettings []FileCopyBody) (Envelope, int) {
+	var (
+		env    Envelope
+		status int
+	)
+	for _, v := range fileListCopySettings {
+		env, status = copyInterfaceSync(reqId, v)
+	}
+	return env, status
+}
+
+func copyFileListHandler(w http.ResponseWriter, r *http.Request) {
+	var (
+		env    Envelope
+		status int
+	)
+	reqId := getRequestId(w)
+
+	defer r.Body.Close()
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	logDebug.Printf("%s - Starting copy process handling\n", reqId)
+	logDebug.Printf("%s - Request body: %s\n", reqId, string(reqBody))
+	var fileCopyListSettings []FileCopyBody
+	err := json.Unmarshal(reqBody, &fileCopyListSettings)
+	if err != nil {
+		logError.Printf("%s - Fhaas received a malformed request: %s", reqId, err)
+		env, status = createBadRequestResponse(reqBody)
+	} else {
+		if isSyncRequest(reqId, r) {
+			env, status = copyListInterfaceSync(reqId, fileCopyListSettings)
+		} else {
+			sendStatusTo := r.Header.Get(H_SEND_STATUS_TO)
+			sendStatusToAuth := r.Header.Get(H_SEND_STATUS_TO_AUTH)
+			logDebug.Printf("%s - Status will be sent to %s", reqId, showIfNotBlank(sendStatusTo))
+			if sendStatusToAuth != "" {
+				logDebug.Printf("%s - Status will send the following Authorization header: %s", reqId, showToken(sendStatusToAuth))
+			}
+			env, status = copyInterfaceASync(
+				reqId,
+				fileCopySettings,
+				sendStatusTo,
+				sendStatusToAuth,
+			)
+		}
 	}
 	envBytes, _ := json.Marshal(env)
 
