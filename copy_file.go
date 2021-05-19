@@ -188,8 +188,10 @@ func copyListInterfaceSync(reqId string, fileListCopySettings []FileCopyBody) (E
 		env    Envelope
 		status int
 	)
-	for _, v := range fileListCopySettings {
-		env, status = copyInterfaceSync(reqId, v)
+	works := len(fileListCopySettings)
+	works_status := make([]Envelope, works)
+	for i, v := range fileListCopySettings {
+		works_status[i], status = copyInterfaceSync(reqId, v)
 	}
 	return env, status
 }
@@ -220,9 +222,9 @@ func copyFileListHandler(w http.ResponseWriter, r *http.Request) {
 			if sendStatusToAuth != "" {
 				logDebug.Printf("%s - Status will send the following Authorization header: %s", reqId, showToken(sendStatusToAuth))
 			}
-			env, status = copyInterfaceASync(
+			env, status = copyListInterfaceASync(
 				reqId,
-				fileCopySettings,
+				fileCopyListSettings,
 				sendStatusTo,
 				sendStatusToAuth,
 			)
