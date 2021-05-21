@@ -185,15 +185,35 @@ func copyFileHandler(w http.ResponseWriter, r *http.Request) {
 
 func copyListInterfaceSync(reqId string, fileListCopySettings []FileCopyBody) (Envelope, int) {
 	var (
-		env    Envelope
-		status int
+		env         Envelope
+		envList     []Envelope
+		status      int
+		finalStatus int
 	)
+	finalStatus = 0
 	works := len(fileListCopySettings)
-	works_status := make([]Envelope, works)
+	envList = make([]Envelope, works)
 	for i, v := range fileListCopySettings {
-		works_status[i], status = copyInterfaceSync(reqId, v)
+		envList[i], status = copyInterfaceSync(reqId, v)
+		envList[i].Status = status
+		if finalStatus == 0 {
+			finalStatus = status
+		} else {
+			if status != 201 && finalStatus == 201 {
+				finalStatus = 207
+			}
+			if status == 201 && finalStatus != 207 {
+				finalStatus = 207
+			}
+		}
 	}
-	return env, status
+	data := map[string]interface{}{
+		"body":   fileListCopySettings,
+		"result": envList,
+	}
+	env.Data = data
+	env.Message = "Copies processed"
+	return env, finalStatus
 }
 
 func copyFileListHandler(w http.ResponseWriter, r *http.Request) {
@@ -215,7 +235,8 @@ func copyFileListHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		if isSyncRequest(reqId, r) {
 			env, status = copyListInterfaceSync(reqId, fileCopyListSettings)
-		} else {
+		}
+		/* else {
 			sendStatusTo := r.Header.Get(H_SEND_STATUS_TO)
 			sendStatusToAuth := r.Header.Get(H_SEND_STATUS_TO_AUTH)
 			logDebug.Printf("%s - Status will be sent to %s", reqId, showIfNotBlank(sendStatusTo))
@@ -229,6 +250,7 @@ func copyFileListHandler(w http.ResponseWriter, r *http.Request) {
 				sendStatusToAuth,
 			)
 		}
+		*/
 	}
 	envBytes, _ := json.Marshal(env)
 

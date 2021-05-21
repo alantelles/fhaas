@@ -8,6 +8,7 @@ import (
 type Envelope struct {
 	Message string                 `json:"message"`
 	Data    map[string]interface{} `json:"data"`
+	Status  int                    `json:"status"`
 }
 
 // FhaaS util headers names
