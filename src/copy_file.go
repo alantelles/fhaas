@@ -84,7 +84,7 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 	return env, status
 }
 
-func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo string, sendStatusAuth string) {
+func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo, sendStatusAuth, sendStatusToAuthType string) {
 	var status int
 	written, err := copyFile(reqId, fileCopySettings)
 	env := Envelope{}
@@ -118,7 +118,11 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo 
 		if sendStatusAuth != "" {
 			req.Header.Set("Authorization", sendStatusAuth)
 		}
-		req.Header.Set("Content-Type", "application/json")
+		if sendStatusToAuthType != "" {
+			req.Header.Set("Content-Type", sendStatusToAuthType)
+		} else {
+			req.Header.Set("Content-Type", "application/json")
+		}
 		client := createClient(20)
 		resp, err := client.Do(req)
 		if err != nil {
@@ -131,8 +135,8 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo 
 	}
 }
 
-func copyInterfaceASync(reqId string, fileCopySettings FileCopyBody, sendStatusTo string, sendStatusAuth string) (Envelope, int) {
-	go copyAsyncWrapper(reqId, fileCopySettings, sendStatusTo, sendStatusAuth)
+func copyInterfaceASync(reqId string, fileCopySettings FileCopyBody, sendStatusToAuthType, sendStatusTo, sendStatusAuth string) (Envelope, int) {
+	go copyAsyncWrapper(reqId, fileCopySettings, sendStatusTo, sendStatusAuth, sendStatusToAuthType)
 	data := map[string]interface{}{
 		"body": fileCopySettings,
 	}
@@ -165,6 +169,7 @@ func copyFileHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			sendStatusTo := r.Header.Get(H_SEND_STATUS_TO)
 			sendStatusToAuth := r.Header.Get(H_SEND_STATUS_TO_AUTH)
+			sendStatusToAuthType := r.Header.Get(H_SEND_STATUS_TO_AUTH_TYPE)
 			logDebug.Printf("%s - Status will be sent to %s", reqId, showIfNotBlank(sendStatusTo))
 			if sendStatusToAuth != "" {
 				logDebug.Printf("%s - Status will send the following Authorization header: %s", reqId, showToken(sendStatusToAuth))
@@ -174,6 +179,7 @@ func copyFileHandler(w http.ResponseWriter, r *http.Request) {
 				fileCopySettings,
 				sendStatusTo,
 				sendStatusToAuth,
+				sendStatusToAuthType,
 			)
 		}
 	}

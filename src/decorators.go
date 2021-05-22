@@ -47,7 +47,7 @@ func verifyAuth(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerF
 		logDebug.Printf("%s - Auth URL used for this request: %s\n", reqId, authUrl)
 		if authToken != "" && authUrl != "" {
 			fmt.Println("Trying to auth")
-			resp, code, err := doPost(authUrl, fmt.Sprintf("%s", authToken), getAuthContentType(w))
+			resp, code, err := doPost(authUrl, authToken, getAuthContentType(w))
 			if err != nil {
 				fmt.Println(err)
 				logError.Printf("%s - Authentication process failed: %v", reqId, err)

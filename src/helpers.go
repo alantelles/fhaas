@@ -27,9 +27,9 @@ func getRequestId(w http.ResponseWriter) string {
 	return "Request " + w.Header().Get(H_REQUEST_ID)
 }
 
-func getAuthUrlUsed(w http.ResponseWriter) string {
-	return w.Header().Get(H_AUTH_URL_USED)
-}
+// func getAuthUrlUsed(w http.ResponseWriter) string {
+// 	return w.Header().Get(H_AUTH_URL_USED)
+// }
 
 func getAuthContentType(w http.ResponseWriter) string {
 	content := w.Header().Get(H_AUTH_CONTENT_TYPE)

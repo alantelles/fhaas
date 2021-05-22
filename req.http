@@ -3,25 +3,24 @@
 @auth = X-Fhaas-Auth-Token: {"token": "zikazikazika"}
 @authurl = X-Fhaas-Auth-Url: http://localhost:8080/self_auth
 @referer = Referer: 192.168.1.3
-@authtype = X-Fhaas-Auth-Content-Type: application/json
 @async = X-Fhaas-Async: true
 @sendstatusto = X-Fhaas-Send-Status-To: http://localhost:7000/status
 
 
 GET {{url}}
 {{auth}}
-{{authtype}}
 ###
 POST {{url}}/copy/many
 {{json}}
 {{auth}}
 {{authurl}}
 
-[{"file_in": "/home/alantelles/Documents/Dancar.zip", "file_out": "/home/alantelles/Documents/out/Dancar.zip", "overwrite": false}, {"file_in": "/home/alantelles/Documents/Intro.zip", "file_out": "/home/alantelles/Documents/out/Intro.zip", "overwrite": false}, {"file_in": "/home/alantelles/Documents/Nao_deixe.zip", "file_out": "/home/alantelles/Documents/out/Nao_deixe.zip", "overwrite": true}]
+[{"file_in": "/home/alantelles/Documents/Dancar.zip", "file_out": "/home/alantelles/Documents/out/Dancar.zip"}, {"file_in": "/home/alantelles/Documents/Intro.zip", "file_out": "/home/alantelles/Documents/out/Intro.zip", "overwrite": false}, {"file_in": "/home/alantelles/Documents/Nao_deixe.zip", "file_out": "/home/alantelles/Documents/out/Nao_deixe.zip", "overwrite": true}]
 ###
 POST {{url}}/copy
 {{json}}
 {{auth}}
+{{async}}
 {{sendstatusto}}
 
 {"file_in":"C:\\Users\\alango\\Documents\\videos\\B084C003_210125I4S02.MXF", "file_out": "C:\\Users\\alango\\Documents\\videos_dest\\B084C003_210125I4S02.MXF", "overwrite": true}

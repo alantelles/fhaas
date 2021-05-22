@@ -1,0 +1,107 @@
+DEBUG: 2021/05/21 11:02:46.909077 main.go:62: Starting FhaaS
+WARN: 2021/05/21 11:02:46.909166 set_flags.go:22: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable (will be checked in every request). If not set, will use X-Fhaas-Auth-Url header of request. This may be potentially dangerous since any url able to authorize operation can be used
+DEBUG: 2021/05/21 11:02:46.909184 set_flags.go:40: logtokens is set to false.
+DEBUG: 2021/05/21 11:06:37.275643 decorators.go:13: [request] id: 0af5ffc3-5176-4825-959a-d8725c4c1160 - POST to /copy/many from (referer not sent)
+DEBUG: 2021/05/21 11:06:37.276573 decorators.go:47: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Auth URL used for this request: http://localhost:8080/self_auth
+DEBUG: 2021/05/21 11:06:37.283916 decorators.go:13: [request] id: dab728ac-5851-4b23-ac2f-ee2cf063e0db - POST to /self_auth from (referer not sent)
+DEBUG: 2021/05/21 11:06:37.284560 decorators.go:65: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Authorized by http://localhost:8080/self_auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/05/21 11:06:37.284626 copy_file.go:227: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Starting copy process handling
+DEBUG: 2021/05/21 11:06:37.284661 copy_file.go:228: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Request body: [{"file_in": "/home/alantelles/Documents/Dancar.zip", "file_out": "/home/alantelles/Documents/out/Dancar.zip", "overwrite": true}, {"file_in": "/home/alantelles/Documents/Intro.zip", "file_out": "/home/alantelles/Documents/out/Intro.zip", "overwrite": true}, {"file_in": "/home/alantelles/Documents/Nao_deixe.zip", "file_out": "/home/alantelles/Documents/out/Nao_deixe.zip", "overwrite": true}]
+DEBUG: 2021/05/21 11:06:37.284778 verifiers.go:26: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Request is sync
+DEBUG: 2021/05/21 11:06:37.284803 copy_file.go:21: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Starting copy.
+DEBUG: 2021/05/21 11:06:37.284819 copy_file.go:22: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - FileIn: /home/alantelles/Documents/Dancar.zip
+DEBUG: 2021/05/21 11:06:37.284833 copy_file.go:23: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - FileOut: /home/alantelles/Documents/out/Dancar.zip
+DEBUG: 2021/05/21 11:06:37.284846 copy_file.go:24: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Overwrite: true
+ERROR: 2021/05/21 11:06:37.284938 copy_file.go:71: While processing copy on Request 0af5ffc3-5176-4825-959a-d8725c4c1160: open /home/alantelles/Documents/out/Dancar.zip: no such file or directory
+DEBUG: 2021/05/21 11:06:37.284974 copy_file.go:21: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Starting copy.
+DEBUG: 2021/05/21 11:06:37.284990 copy_file.go:22: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - FileIn: /home/alantelles/Documents/Intro.zip
+DEBUG: 2021/05/21 11:06:37.285002 copy_file.go:23: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - FileOut: /home/alantelles/Documents/out/Intro.zip
+DEBUG: 2021/05/21 11:06:37.285014 copy_file.go:24: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Overwrite: true
+ERROR: 2021/05/21 11:06:37.285079 copy_file.go:71: While processing copy on Request 0af5ffc3-5176-4825-959a-d8725c4c1160: open /home/alantelles/Documents/out/Intro.zip: no such file or directory
+DEBUG: 2021/05/21 11:06:37.285103 copy_file.go:21: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Starting copy.
+DEBUG: 2021/05/21 11:06:37.285118 copy_file.go:22: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - FileIn: /home/alantelles/Documents/Nao_deixe.zip
+DEBUG: 2021/05/21 11:06:37.285131 copy_file.go:23: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - FileOut: /home/alantelles/Documents/out/Nao_deixe.zip
+DEBUG: 2021/05/21 11:06:37.285143 copy_file.go:24: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Overwrite: true
+ERROR: 2021/05/21 11:06:37.285176 copy_file.go:71: While processing copy on Request 0af5ffc3-5176-4825-959a-d8725c4c1160: open /home/alantelles/Documents/Nao_deixe.zip: no such file or directory
+DEBUG: 2021/05/21 11:06:37.285348 copy_file.go:256: Request 0af5ffc3-5176-4825-959a-d8725c4c1160 - Copy process response: {"message":"Copies processed","data":{"body":[{"file_in":"/home/alantelles/Documents/Dancar.zip","file_out":"/home/alantelles/Documents/out/Dancar.zip","overwrite":true},{"file_in":"/home/alantelles/Documents/Intro.zip","file_out":"/home/alantelles/Documents/out/Intro.zip","overwrite":true},{"file_in":"/home/alantelles/Documents/Nao_deixe.zip","file_out":"/home/alantelles/Documents/out/Nao_deixe.zip","overwrite":true}],"result":[{"message":"Operation failed: open /home/alantelles/Documents/out/Dancar.zip: no such file or directory","data":{"body":{"file_in":"/home/alantelles/Documents/Dancar.zip","file_out":"/home/alantelles/Documents/out/Dancar.zip","overwrite":true},"bytesWritten":0}},{"message":"Operation failed: open /home/alantelles/Documents/out/Intro.zip: no such file or directory","data":{"body":{"file_in":"/home/alantelles/Documents/Intro.zip","file_out":"/home/alantelles/Documents/out/Intro.zip","overwrite":true},"bytesWritten":0}},{"message":"Operation failed: open /home/alantelles/Documents/Nao_deixe.zip: no such file or directory","data":{"body":{"file_in":"/home/alantelles/Documents/Nao_deixe.zip","file_out":"/home/alantelles/Documents/out/Nao_deixe.zip","overwrite":true},"bytesWritten":0}}]}}
+DEBUG: 2021/05/21 11:07:29.725286 helpers.go:53: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/21 11:07:29.725376 helpers.go:54: Stopping FhaaS
+DEBUG: 2021/05/21 11:07:45.734408 main.go:62: Starting FhaaS
+WARN: 2021/05/21 11:07:45.734563 set_flags.go:22: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable (will be checked in every request). If not set, will use X-Fhaas-Auth-Url header of request. This may be potentially dangerous since any url able to authorize operation can be used
+DEBUG: 2021/05/21 11:07:45.734600 set_flags.go:40: logtokens is set to false.
+DEBUG: 2021/05/21 11:07:51.292004 decorators.go:13: [request] id: dc24954f-0768-4e50-aa6c-b5ee98987a8a - POST to /copy/many from (referer not sent)
+DEBUG: 2021/05/21 11:07:51.292140 decorators.go:47: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Auth URL used for this request: http://localhost:8080/self_auth
+DEBUG: 2021/05/21 11:07:51.295410 decorators.go:13: [request] id: 88759f5a-3e17-4ec6-8815-d2aa81452fae - POST to /self_auth from (referer not sent)
+DEBUG: 2021/05/21 11:07:51.297298 decorators.go:65: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Authorized by http://localhost:8080/self_auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/05/21 11:07:51.300390 copy_file.go:227: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Starting copy process handling
+DEBUG: 2021/05/21 11:07:51.300486 copy_file.go:228: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Request body: [{"file_in": "/home/alantelles/Documents/Dancar.zip", "file_out": "/home/alantelles/Documents/out/Dancar.zip", "overwrite": true}, {"file_in": "/home/alantelles/Documents/Intro.zip", "file_out": "/home/alantelles/Documents/out/Intro.zip", "overwrite": true}, {"file_in": "/home/alantelles/Documents/Nao_deixe.zip", "file_out": "/home/alantelles/Documents/out/Nao_deixe.zip", "overwrite": true}]
+DEBUG: 2021/05/21 11:07:51.301939 verifiers.go:26: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Request is sync
+DEBUG: 2021/05/21 11:07:51.301984 copy_file.go:21: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Starting copy.
+DEBUG: 2021/05/21 11:07:51.302002 copy_file.go:22: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - FileIn: /home/alantelles/Documents/Dancar.zip
+DEBUG: 2021/05/21 11:07:51.302016 copy_file.go:23: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - FileOut: /home/alantelles/Documents/out/Dancar.zip
+DEBUG: 2021/05/21 11:07:51.302030 copy_file.go:24: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Overwrite: true
+DEBUG: 2021/05/21 11:07:51.703218 copy_file.go:51: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - File /home/alantelles/Documents/Dancar.zip copied to /home/alantelles/Documents/out/Dancar.zip successfully
+DEBUG: 2021/05/21 11:07:51.703332 copy_file.go:21: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Starting copy.
+DEBUG: 2021/05/21 11:07:51.703359 copy_file.go:22: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - FileIn: /home/alantelles/Documents/Intro.zip
+DEBUG: 2021/05/21 11:07:51.703372 copy_file.go:23: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - FileOut: /home/alantelles/Documents/out/Intro.zip
+DEBUG: 2021/05/21 11:07:51.703384 copy_file.go:24: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Overwrite: true
+DEBUG: 2021/05/21 11:07:51.761316 copy_file.go:51: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - File /home/alantelles/Documents/Intro.zip copied to /home/alantelles/Documents/out/Intro.zip successfully
+DEBUG: 2021/05/21 11:07:51.761442 copy_file.go:21: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Starting copy.
+DEBUG: 2021/05/21 11:07:51.761472 copy_file.go:22: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - FileIn: /home/alantelles/Documents/Nao_deixe.zip
+DEBUG: 2021/05/21 11:07:51.761495 copy_file.go:23: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - FileOut: /home/alantelles/Documents/out/Nao_deixe.zip
+DEBUG: 2021/05/21 11:07:51.761516 copy_file.go:24: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Overwrite: true
+ERROR: 2021/05/21 11:07:51.761623 copy_file.go:71: While processing copy on Request dc24954f-0768-4e50-aa6c-b5ee98987a8a: open /home/alantelles/Documents/Nao_deixe.zip: no such file or directory
+DEBUG: 2021/05/21 11:07:51.761917 copy_file.go:256: Request dc24954f-0768-4e50-aa6c-b5ee98987a8a - Copy process response: {"message":"Copies processed","data":{"body":[{"file_in":"/home/alantelles/Documents/Dancar.zip","file_out":"/home/alantelles/Documents/out/Dancar.zip","overwrite":true},{"file_in":"/home/alantelles/Documents/Intro.zip","file_out":"/home/alantelles/Documents/out/Intro.zip","overwrite":true},{"file_in":"/home/alantelles/Documents/Nao_deixe.zip","file_out":"/home/alantelles/Documents/out/Nao_deixe.zip","overwrite":true}],"result":[{"message":"File copied successfully","data":{"body":{"file_in":"/home/alantelles/Documents/Dancar.zip","file_out":"/home/alantelles/Documents/out/Dancar.zip","overwrite":true},"bytesWritten":103767680}},{"message":"File copied successfully","data":{"body":{"file_in":"/home/alantelles/Documents/Intro.zip","file_out":"/home/alantelles/Documents/out/Intro.zip","overwrite":true},"bytesWritten":15197520}},{"message":"Operation failed: open /home/alantelles/Documents/Nao_deixe.zip: no such file or directory","data":{"body":{"file_in":"/home/alantelles/Documents/Nao_deixe.zip","file_out":"/home/alantelles/Documents/out/Nao_deixe.zip","overwrite":true},"bytesWritten":0}}]}}
+DEBUG: 2021/05/21 11:11:44.804320 decorators.go:13: [request] id: 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - POST to /copy/many from (referer not sent)
+DEBUG: 2021/05/21 11:11:44.804473 decorators.go:47: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Auth URL used for this request: http://localhost:8080/self_auth
+DEBUG: 2021/05/21 11:11:44.805425 decorators.go:13: [request] id: d69e2e58-03a4-42e6-9be0-2851e620b800 - POST to /self_auth from (referer not sent)
+DEBUG: 2021/05/21 11:11:44.808095 decorators.go:65: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Authorized by http://localhost:8080/self_auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/05/21 11:11:44.808208 copy_file.go:227: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Starting copy process handling
+DEBUG: 2021/05/21 11:11:44.808246 copy_file.go:228: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Request body: [{"file_in": "/home/alantelles/Documents/Dancar.zip", "file_out": "/home/alantelles/Documents/out/Dancar.zip", "overwrite": false}, {"file_in": "/home/alantelles/Documents/Intro.zip", "file_out": "/home/alantelles/Documents/out/Intro.zip", "overwrite": false}, {"file_in": "/home/alantelles/Documents/Nao_deixe.zip", "file_out": "/home/alantelles/Documents/out/Nao_deixe.zip", "overwrite": true}]
+DEBUG: 2021/05/21 11:11:44.808317 verifiers.go:26: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Request is sync
+DEBUG: 2021/05/21 11:11:44.808340 copy_file.go:21: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Starting copy.
+DEBUG: 2021/05/21 11:11:44.808355 copy_file.go:22: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - FileIn: /home/alantelles/Documents/Dancar.zip
+DEBUG: 2021/05/21 11:11:44.808394 copy_file.go:23: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - FileOut: /home/alantelles/Documents/out/Dancar.zip
+DEBUG: 2021/05/21 11:11:44.808410 copy_file.go:24: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Overwrite: false
+DEBUG: 2021/05/21 11:11:44.808467 copy_file.go:54: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Destination file "/home/alantelles/Documents/out/Dancar.zip" exists. No operations done
+DEBUG: 2021/05/21 11:11:44.808498 copy_file.go:21: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Starting copy.
+DEBUG: 2021/05/21 11:11:44.808515 copy_file.go:22: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - FileIn: /home/alantelles/Documents/Intro.zip
+DEBUG: 2021/05/21 11:11:44.808527 copy_file.go:23: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - FileOut: /home/alantelles/Documents/out/Intro.zip
+DEBUG: 2021/05/21 11:11:44.808538 copy_file.go:24: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Overwrite: false
+DEBUG: 2021/05/21 11:11:44.808558 copy_file.go:54: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Destination file "/home/alantelles/Documents/out/Intro.zip" exists. No operations done
+DEBUG: 2021/05/21 11:11:44.808576 copy_file.go:21: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Starting copy.
+DEBUG: 2021/05/21 11:11:44.808588 copy_file.go:22: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - FileIn: /home/alantelles/Documents/Nao_deixe.zip
+DEBUG: 2021/05/21 11:11:44.808599 copy_file.go:23: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - FileOut: /home/alantelles/Documents/out/Nao_deixe.zip
+DEBUG: 2021/05/21 11:11:44.808610 copy_file.go:24: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Overwrite: true
+DEBUG: 2021/05/21 11:11:45.042969 copy_file.go:51: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - File /home/alantelles/Documents/Nao_deixe.zip copied to /home/alantelles/Documents/out/Nao_deixe.zip successfully
+DEBUG: 2021/05/21 11:11:45.043167 copy_file.go:256: Request 44eabcdb-89fb-4f40-9484-a8afce1dd6a4 - Copy process response: {"message":"Copies processed","data":{"body":[{"file_in":"/home/alantelles/Documents/Dancar.zip","file_out":"/home/alantelles/Documents/out/Dancar.zip","overwrite":false},{"file_in":"/home/alantelles/Documents/Intro.zip","file_out":"/home/alantelles/Documents/out/Intro.zip","overwrite":false},{"file_in":"/home/alantelles/Documents/Nao_deixe.zip","file_out":"/home/alantelles/Documents/out/Nao_deixe.zip","overwrite":true}],"result":[{"message":"File not copied due to already existing and overwrite was set to false","data":{"body":{"file_in":"/home/alantelles/Documents/Dancar.zip","file_out":"/home/alantelles/Documents/out/Dancar.zip","overwrite":false},"bytesWritten":-1}},{"message":"File not copied due to already existing and overwrite was set to false","data":{"body":{"file_in":"/home/alantelles/Documents/Intro.zip","file_out":"/home/alantelles/Documents/out/Intro.zip","overwrite":false},"bytesWritten":-1}},{"message":"File copied successfully","data":{"body":{"file_in":"/home/alantelles/Documents/Nao_deixe.zip","file_out":"/home/alantelles/Documents/out/Nao_deixe.zip","overwrite":true},"bytesWritten":60715223}}]}}
+DEBUG: 2021/05/21 11:12:05.621993 helpers.go:53: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/21 11:12:05.622096 helpers.go:54: Stopping FhaaS
+DEBUG: 2021/05/21 11:13:34.217741 main.go:63: Starting FhaaS
+WARN: 2021/05/21 11:13:34.217877 set_flags.go:22: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable (will be checked in every request). If not set, will use X-Fhaas-Auth-Url header of request. This may be potentially dangerous since any url able to authorize operation can be used
+DEBUG: 2021/05/21 11:13:34.217910 set_flags.go:40: logtokens is set to false.
+DEBUG: 2021/05/21 11:13:40.349959 decorators.go:13: [request] id: ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - POST to /copy/many from (referer not sent)
+DEBUG: 2021/05/21 11:13:40.352176 decorators.go:47: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Auth URL used for this request: http://localhost:8080/self_auth
+DEBUG: 2021/05/21 11:13:40.354764 decorators.go:13: [request] id: 7511fab8-4bb9-4baf-9eee-7bb4d2872369 - POST to /self_auth from (referer not sent)
+DEBUG: 2021/05/21 11:13:40.355286 decorators.go:65: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Authorized by http://localhost:8080/self_auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/05/21 11:13:40.355349 copy_file.go:228: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Starting copy process handling
+DEBUG: 2021/05/21 11:13:40.355386 copy_file.go:229: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Request body: [{"file_in": "/home/alantelles/Documents/Dancar.zip", "file_out": "/home/alantelles/Documents/out/Dancar.zip", "overwrite": false}, {"file_in": "/home/alantelles/Documents/Intro.zip", "file_out": "/home/alantelles/Documents/out/Intro.zip", "overwrite": false}, {"file_in": "/home/alantelles/Documents/Nao_deixe.zip", "file_out": "/home/alantelles/Documents/out/Nao_deixe.zip", "overwrite": true}]
+DEBUG: 2021/05/21 11:13:40.355501 verifiers.go:26: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Request is sync
+DEBUG: 2021/05/21 11:13:40.355523 copy_file.go:21: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Starting copy.
+DEBUG: 2021/05/21 11:13:40.355540 copy_file.go:22: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - FileIn: /home/alantelles/Documents/Dancar.zip
+DEBUG: 2021/05/21 11:13:40.355552 copy_file.go:23: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - FileOut: /home/alantelles/Documents/out/Dancar.zip
+DEBUG: 2021/05/21 11:13:40.355566 copy_file.go:24: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Overwrite: false
+DEBUG: 2021/05/21 11:13:40.355619 copy_file.go:54: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Destination file "/home/alantelles/Documents/out/Dancar.zip" exists. No operations done
+DEBUG: 2021/05/21 11:13:40.355644 copy_file.go:21: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Starting copy.
+DEBUG: 2021/05/21 11:13:40.355658 copy_file.go:22: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - FileIn: /home/alantelles/Documents/Intro.zip
+DEBUG: 2021/05/21 11:13:40.355671 copy_file.go:23: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - FileOut: /home/alantelles/Documents/out/Intro.zip
+DEBUG: 2021/05/21 11:13:40.355684 copy_file.go:24: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Overwrite: false
+DEBUG: 2021/05/21 11:13:40.355707 copy_file.go:54: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Destination file "/home/alantelles/Documents/out/Intro.zip" exists. No operations done
+DEBUG: 2021/05/21 11:13:40.355731 copy_file.go:21: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Starting copy.
+DEBUG: 2021/05/21 11:13:40.355744 copy_file.go:22: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - FileIn: /home/alantelles/Documents/Nao_deixe.zip
+DEBUG: 2021/05/21 11:13:40.355757 copy_file.go:23: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - FileOut: /home/alantelles/Documents/out/Nao_deixe.zip
+DEBUG: 2021/05/21 11:13:40.355770 copy_file.go:24: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Overwrite: true
+DEBUG: 2021/05/21 11:13:40.463272 copy_file.go:51: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - File /home/alantelles/Documents/Nao_deixe.zip copied to /home/alantelles/Documents/out/Nao_deixe.zip successfully
+DEBUG: 2021/05/21 11:13:40.717735 copy_file.go:257: Request ff08f1d3-4991-4dd0-8c73-580d7db5ef3e - Copy process response: {"message":"Copies processed","data":{"body":[{"file_in":"/home/alantelles/Documents/Dancar.zip","file_out":"/home/alantelles/Documents/out/Dancar.zip","overwrite":false},{"file_in":"/home/alantelles/Documents/Intro.zip","file_out":"/home/alantelles/Documents/out/Intro.zip","overwrite":false},{"file_in":"/home/alantelles/Documents/Nao_deixe.zip","file_out":"/home/alantelles/Documents/out/Nao_deixe.zip","overwrite":true}],"result":[{"message":"File not copied due to already existing and overwrite was set to false","data":{"body":{"file_in":"/home/alantelles/Documents/Dancar.zip","file_out":"/home/alantelles/Documents/out/Dancar.zip","overwrite":false},"bytesWritten":-1},"status":200},{"message":"File not copied due to already existing and overwrite was set to false","data":{"body":{"file_in":"/home/alantelles/Documents/Intro.zip","file_out":"/home/alantelles/Documents/out/Intro.zip","overwrite":false},"bytesWritten":-1},"status":200},{"message":"File copied successfully","data":{"body":{"file_in":"/home/alantelles/Documents/Nao_deixe.zip","file_out":"/home/alantelles/Documents/out/Nao_deixe.zip","overwrite":true},"bytesWritten":60715223},"status":201}]},"status":0}
+DEBUG: 2021/05/21 11:20:47.706793 helpers.go:53: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/21 11:20:47.706912 helpers.go:54: Stopping FhaaS
