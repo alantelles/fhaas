@@ -84,7 +84,7 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 	return env, status
 }
 
-func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo, sendStatusAuth, sendStatusToAuthType string) {
+func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo, sendStatusAuth string) {
 	var status int
 	written, err := copyFile(reqId, fileCopySettings)
 	env := Envelope{}
@@ -118,11 +118,6 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo,
 		if sendStatusAuth != "" {
 			req.Header.Set("Authorization", sendStatusAuth)
 		}
-		if sendStatusToAuthType != "" {
-			req.Header.Set("Content-Type", sendStatusToAuthType)
-		} else {
-			req.Header.Set("Content-Type", "application/json")
-		}
 		client := createClient(20)
 		resp, err := client.Do(req)
 		if err != nil {
@@ -135,8 +130,8 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo,
 	}
 }
 
-func copyInterfaceASync(reqId string, fileCopySettings FileCopyBody, sendStatusToAuthType, sendStatusTo, sendStatusAuth string) (Envelope, int) {
-	go copyAsyncWrapper(reqId, fileCopySettings, sendStatusTo, sendStatusAuth, sendStatusToAuthType)
+func copyInterfaceASync(reqId string, fileCopySettings FileCopyBody, sendStatusTo, sendStatusAuth string) (Envelope, int) {
+	go copyAsyncWrapper(reqId, fileCopySettings, sendStatusTo, sendStatusAuth)
 	data := map[string]interface{}{
 		"body": fileCopySettings,
 	}
@@ -169,7 +164,6 @@ func copyFileHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			sendStatusTo := r.Header.Get(H_SEND_STATUS_TO)
 			sendStatusToAuth := r.Header.Get(H_SEND_STATUS_TO_AUTH)
-			sendStatusToAuthType := r.Header.Get(H_SEND_STATUS_TO_AUTH_TYPE)
 			logDebug.Printf("%s - Status will be sent to %s", reqId, showIfNotBlank(sendStatusTo))
 			if sendStatusToAuth != "" {
 				logDebug.Printf("%s - Status will send the following Authorization header: %s", reqId, showToken(sendStatusToAuth))
@@ -179,84 +173,8 @@ func copyFileHandler(w http.ResponseWriter, r *http.Request) {
 				fileCopySettings,
 				sendStatusTo,
 				sendStatusToAuth,
-				sendStatusToAuthType,
 			)
 		}
-	}
-	envBytes, _ := json.Marshal(env)
-
-	logDebug.Printf("%s - Copy process response: %s", reqId, string(envBytes))
-	respond(env, w, status)
-}
-
-func copyListInterfaceSync(reqId string, fileListCopySettings []FileCopyBody) (Envelope, int) {
-	var (
-		env         Envelope
-		envList     []Envelope
-		status      int
-		finalStatus int
-	)
-	finalStatus = 0
-	works := len(fileListCopySettings)
-	envList = make([]Envelope, works)
-	for i, v := range fileListCopySettings {
-		envList[i], status = copyInterfaceSync(reqId, v)
-		envList[i].Status = status
-		if finalStatus == 0 {
-			finalStatus = status
-		} else {
-			if status != 201 && finalStatus == 201 {
-				finalStatus = 207
-			}
-			if status == 201 && finalStatus != 207 {
-				finalStatus = 207
-			}
-		}
-	}
-	data := map[string]interface{}{
-		"body":   fileListCopySettings,
-		"result": envList,
-	}
-	env.Data = data
-	env.Message = "Copies processed"
-	return env, finalStatus
-}
-
-func copyFileListHandler(w http.ResponseWriter, r *http.Request) {
-	var (
-		env    Envelope
-		status int
-	)
-	reqId := getRequestId(w)
-
-	defer r.Body.Close()
-	reqBody, _ := ioutil.ReadAll(r.Body)
-	logDebug.Printf("%s - Starting copy process handling\n", reqId)
-	logDebug.Printf("%s - Request body: %s\n", reqId, string(reqBody))
-	var fileCopyListSettings []FileCopyBody
-	err := json.Unmarshal(reqBody, &fileCopyListSettings)
-	if err != nil {
-		logError.Printf("%s - Fhaas received a malformed request: %s", reqId, err)
-		env, status = createBadRequestResponse(reqBody)
-	} else {
-		if isSyncRequest(reqId, r) {
-			env, status = copyListInterfaceSync(reqId, fileCopyListSettings)
-		}
-		/* else {
-			sendStatusTo := r.Header.Get(H_SEND_STATUS_TO)
-			sendStatusToAuth := r.Header.Get(H_SEND_STATUS_TO_AUTH)
-			logDebug.Printf("%s - Status will be sent to %s", reqId, showIfNotBlank(sendStatusTo))
-			if sendStatusToAuth != "" {
-				logDebug.Printf("%s - Status will send the following Authorization header: %s", reqId, showToken(sendStatusToAuth))
-			}
-			env, status = copyListInterfaceASync(
-				reqId,
-				fileCopyListSettings,
-				sendStatusTo,
-				sendStatusToAuth,
-			)
-		}
-		*/
 	}
 	envBytes, _ := json.Marshal(env)
 

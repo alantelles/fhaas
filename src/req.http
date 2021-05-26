@@ -15,7 +15,7 @@ POST {{url}}/copy/many
 {{auth}}
 {{authurl}}
 
-[{"file_in": "/home/alantelles/Documents/Dancar.zip", "file_out": "/home/alantelles/Documents/out/Dancar.zip"}, {"file_in": "/home/alantelles/Documents/Intro.zip", "file_out": "/home/alantelles/Documents/out/Intro.zip", "overwrite": false}, {"file_in": "/home/alantelles/Documents/Nao_deixe.zip", "file_out": "/home/alantelles/Documents/out/Nao_deixe.zip", "overwrite": true}]
+[{"file_in": "/home/alantelles/Documents/Dancar.zip", "file_out": "/home/alantelles/Documents/out/Dancar.zip", "overwrite": false}, {"file_in": "/home/alantelles/Documents/Intro.zip", "file_out": "/home/alantelles/Documents/out/Intro.zip", "overwrite": true}, {"file_in": "/home/alantelles/Documents/Nao_deixe.zip", "file_out": "/home/alantelles/Documents/out/Nao_deixe.zip", "overwrite": true}]
 ###
 POST {{url}}/copy
 {{json}}
