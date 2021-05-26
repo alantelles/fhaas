@@ -21,8 +21,8 @@ The shown headers are required to every request
 ```http
 POST /copy
 Content-Type: application/json
-X-FhaaS-Authorization: your-requester-token
-X-FhaaS-Async: false
+X-Fhaas-Authorization: your-requester-token
+X-Fhaas-Async: false
 
 {"file_in": "full/path/to/src.file", "file_out": "full/path/to/dest.file"}
 ```
@@ -36,14 +36,14 @@ Return for success
 The body sent is returned so you can easily revert an operation if needed
 
 ### Moving file
-Obviously, move operation can be used to simply rename a file.
+Move operation can be used to simply rename a file.
 
 
 ```http
 PUT /move
 Content-Type: application/json
-X-FhaaS-Authorization: your-requester-token
-X-FhaaS-Async: false
+X-Fhaas-Authorization: your-requester-token
+X-Fhaas-Async: false
 
 {"file_in": "full/path/to/src.file", "file_out": "full/path/to/dest.file"}
 ```
@@ -61,10 +61,10 @@ An example using `async` mode. With async a `X-FhaaS-SendStatusTo` header can be
 ```http
 DELETE /delete
 Content-Type: application/json
-X-FhaaS-Authorization: your-requester-token
-X-FhaaS-ResponseAuth: some-token-to-response
-X-FhaaS-Async: true
-X-FhaaS-SendStatusTo: http://therequester.app/api/results
+X-Fhaas-Authorization: your-requester-token
+X-Fhaas-Response-Auth: some-token-to-response
+X-Fhaas-Async: true
+X-Fhaas-Send-Status-To: http://therequester.app/api/results
 
 {"file_in": "full/path/to/src.file", "file_out": "full/path/to/dest.file"}
 ```
