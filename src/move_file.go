@@ -71,7 +71,8 @@ func moveInterfaceSync(reqId string, fileMoveSettings FileMoveBody) (Envelope, i
 		"body":         fileMoveSettings,
 	}
 	env := Envelope{
-		Data: data,
+		Data:      data,
+		RequestId: reqId,
 	}
 	if err != nil {
 		logError.Printf("While processing move on %s: %v\n", reqId, err)
@@ -93,7 +94,7 @@ func moveInterfaceSync(reqId string, fileMoveSettings FileMoveBody) (Envelope, i
 func moveAsyncWrapper(reqId string, fileMoveSettings FileMoveBody, sendStatusTo string, sendStatusAuth string) {
 	var status int
 	written, err := moveFile(reqId, fileMoveSettings)
-	env := Envelope{}
+	env := Envelope{RequestId: reqId}
 	if err != nil {
 		logError.Printf("Error while processing move on %s: %v\n", reqId, err)
 		env.Message = fmt.Sprintf("Operation failed: %v", err)
@@ -143,8 +144,9 @@ func moveInterfaceASync(reqId string, fileMoveSettings FileMoveBody, sendStatusT
 		"body": fileMoveSettings,
 	}
 	env := Envelope{
-		Message: "Move process started",
-		Data:    data,
+		Message:   "Move process started",
+		Data:      data,
+		RequestId: reqId,
 	}
 	return env, http.StatusAccepted
 }

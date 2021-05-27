@@ -1,0 +1,30 @@
+DEBUG: 2021/05/21 18:05:55.588164 main.go:62: Starting FhaaS
+WARN: 2021/05/21 18:05:55.602467 set_flags.go:22: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable (will be checked in every request). If not set, will use X-Fhaas-Auth-Url header of request. This may be potentially dangerous since any url able to authorize operation can be used
+DEBUG: 2021/05/21 18:05:55.602467 set_flags.go:40: logtokens is set to false.
+DEBUG: 2021/05/21 18:05:56.555386 helpers.go:53: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/21 18:05:56.555909 helpers.go:54: Stopping FhaaS
+DEBUG: 2021/05/21 18:08:09.446031 main.go:62: Starting FhaaS
+WARN: 2021/05/21 18:08:09.446592 set_flags.go:22: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable (will be checked in every request). If not set, will use X-Fhaas-Auth-Url header of request. This may be potentially dangerous since any url able to authorize operation can be used
+DEBUG: 2021/05/21 18:08:09.446592 set_flags.go:40: logtokens is set to false.
+DEBUG: 2021/05/21 18:09:51.143614 decorators.go:13: [request] id: 137fea99-4541-4798-8a67-1938bd46c5fb - POST to /copy from (referer not sent)
+DEBUG: 2021/05/21 18:09:51.147563 decorators.go:47: Request 137fea99-4541-4798-8a67-1938bd46c5fb - Auth URL used for this request: 
+DEBUG: 2021/05/21 18:10:00.339217 decorators.go:13: [request] id: 9b8f65c2-c973-42f1-80bb-a3b232580a3c - POST to /copy from (referer not sent)
+DEBUG: 2021/05/21 18:10:00.342221 decorators.go:47: Request 9b8f65c2-c973-42f1-80bb-a3b232580a3c - Auth URL used for this request: 
+DEBUG: 2021/05/21 18:10:18.879075 decorators.go:13: [request] id: 8f4e1fb3-5909-4a46-864c-1f5169887478 - POST to /copy from (referer not sent)
+DEBUG: 2021/05/21 18:10:18.884471 decorators.go:47: Request 8f4e1fb3-5909-4a46-864c-1f5169887478 - Auth URL used for this request: http://localhost:7002
+DEBUG: 2021/05/21 18:10:34.247584 decorators.go:13: [request] id: c9be8523-813c-4106-86d8-3f0b67c6ffa1 - POST to /copy from (referer not sent)
+DEBUG: 2021/05/21 18:10:34.250671 decorators.go:47: Request c9be8523-813c-4106-86d8-3f0b67c6ffa1 - Auth URL used for this request: http://localhost:7000
+DEBUG: 2021/05/21 18:10:54.214867 decorators.go:13: [request] id: b786bc36-5520-4dbc-af88-c839b546179a - POST to /copy from (referer not sent)
+DEBUG: 2021/05/21 18:10:54.216845 decorators.go:47: Request b786bc36-5520-4dbc-af88-c839b546179a - Auth URL used for this request: http://localhost:7000
+DEBUG: 2021/05/21 18:10:54.245233 decorators.go:65: Request b786bc36-5520-4dbc-af88-c839b546179a - Authorized by http://localhost:7000 with token [logtokens disabled]. Processing request.
+DEBUG: 2021/05/21 18:10:54.245233 copy_file.go:155: Request b786bc36-5520-4dbc-af88-c839b546179a - Starting copy process handling
+DEBUG: 2021/05/21 18:10:54.245233 copy_file.go:156: Request b786bc36-5520-4dbc-af88-c839b546179a - Request body: {"file_in":"C:\\Users\\alango\\Documents\\claquetes_reais\\C100\\C100C007_210126BF.MXF", "file_out": "C:\\Users\\alango\\Documents\\claquetes_reais\\C100\\outro.MXF", "overwrite": true}
+DEBUG: 2021/05/21 18:10:54.245766 verifiers.go:26: Request b786bc36-5520-4dbc-af88-c839b546179a - Request is sync
+DEBUG: 2021/05/21 18:10:54.245766 copy_file.go:21: Request b786bc36-5520-4dbc-af88-c839b546179a - Starting copy.
+DEBUG: 2021/05/21 18:10:54.245766 copy_file.go:22: Request b786bc36-5520-4dbc-af88-c839b546179a - FileIn: C:\Users\alango\Documents\claquetes_reais\C100\C100C007_210126BF.MXF
+DEBUG: 2021/05/21 18:10:54.245766 copy_file.go:23: Request b786bc36-5520-4dbc-af88-c839b546179a - FileOut: C:\Users\alango\Documents\claquetes_reais\C100\outro.MXF
+DEBUG: 2021/05/21 18:10:54.245766 copy_file.go:24: Request b786bc36-5520-4dbc-af88-c839b546179a - Overwrite: true
+DEBUG: 2021/05/21 18:10:54.968249 copy_file.go:51: Request b786bc36-5520-4dbc-af88-c839b546179a - File C:\Users\alango\Documents\claquetes_reais\C100\C100C007_210126BF.MXF copied to C:\Users\alango\Documents\claquetes_reais\C100\outro.MXF successfully
+DEBUG: 2021/05/21 18:10:54.983496 copy_file.go:182: Request b786bc36-5520-4dbc-af88-c839b546179a - Copy process response: {"message":"File copied successfully","data":{"body":{"file_in":"C:\\Users\\alango\\Documents\\claquetes_reais\\C100\\C100C007_210126BF.MXF","file_out":"C:\\Users\\alango\\Documents\\claquetes_reais\\C100\\outro.MXF","overwrite":true},"bytesWritten":166021680}}
+DEBUG: 2021/05/21 18:14:20.092997 helpers.go:53: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/21 18:14:20.093085 helpers.go:54: Stopping FhaaS

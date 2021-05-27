@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
+	"io"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 func copyListInterfaceSync(reqId string, fileListCopySettings []FileCopyBody) (Envelope, int) {
@@ -36,10 +39,11 @@ func copyListInterfaceSync(reqId string, fileListCopySettings []FileCopyBody) (E
 	}
 	env.Data = data
 	env.Message = "Copies processed"
+	env.RequestId = strings.Replace(reqId, "Request ", "", -1)
 	return env, finalStatus
 }
 
-func copyListAsyncWrapper(reqId string, fileListCopySettings []FileCopyBody, sendStatusTo, sendStatusAuth string) (Envelope, int) {
+func copyListAsyncWrapper(reqId string, fileListCopySettings []FileCopyBody, sendStatusTo, sendStatusAuth string) {
 	var (
 		env         Envelope
 		envList     []Envelope
@@ -68,14 +72,43 @@ func copyListAsyncWrapper(reqId string, fileListCopySettings []FileCopyBody, sen
 		"result": envList,
 	}
 	env.Data = data
+	env.RequestId = dropReq(reqId)
 	env.Message = "Copies processed"
-	return env, finalStatus
+	if sendStatusTo != "" {
+		body, _ := json.Marshal(env)
+		logDebug.Printf("%s - Status: %s", reqId, string(body))
+		logDebug.Printf("%s - Sending status to %s", reqId, sendStatusTo)
+		req, err := http.NewRequest("POST", sendStatusTo, bytes.NewReader(body))
+		if err != nil {
+			logError.Printf("%s - Error while creating request to send status: %v", reqId, err)
+		}
+		if sendStatusAuth != "" {
+			req.Header.Set("Authorization", sendStatusAuth)
+		}
+		client := createClient(20)
+		resp, err := client.Do(req)
+		if err != nil {
+			logError.Printf("%s - Error while sending operation status: %v", reqId, err)
+		}
+		defer resp.Body.Close()
+		respBytes, _ := io.ReadAll(resp.Body)
+		respStr := string(respBytes)
+		logDebug.Printf("%s - Status endpoint returned with: %s", reqId, respStr)
+	}
+	// return env, finalStatus
 }
 
 func copyListInterfaceASync(reqId string, fileListCopySettings []FileCopyBody, sendStatusTo, sendStatusAuth string) (Envelope, int) {
 	go copyListAsyncWrapper(reqId, fileListCopySettings, sendStatusTo, sendStatusAuth)
-	env := Envelope{}
-	return env, 0
+	env := Envelope{
+		Message: "Copy process started",
+		Data: map[string]interface{}{
+			"body": fileListCopySettings,
+		},
+		Status:    http.StatusAccepted,
+		RequestId: dropReq(reqId),
+	}
+	return env, http.StatusAccepted
 }
 
 func copyFileListHandler(w http.ResponseWriter, r *http.Request) {

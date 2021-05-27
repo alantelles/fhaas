@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -65,7 +66,8 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 		"body":         fileCopySettings,
 	}
 	env := Envelope{
-		Data: data,
+		Data:      data,
+		RequestId: strings.Replace(reqId, "Request ", "", -1),
 	}
 	if err != nil {
 		logError.Printf("While processing copy on %s: %v\n", reqId, err)
@@ -87,7 +89,7 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo, sendStatusAuth string) {
 	var status int
 	written, err := copyFile(reqId, fileCopySettings)
-	env := Envelope{}
+	env := Envelope{RequestId: reqId}
 	if err != nil {
 		logError.Printf("Error while processing copy on %s: %v\n", reqId, err)
 		env.Message = fmt.Sprintf("Operation failed: %v", err)
@@ -136,8 +138,9 @@ func copyInterfaceASync(reqId string, fileCopySettings FileCopyBody, sendStatusT
 		"body": fileCopySettings,
 	}
 	env := Envelope{
-		Message: "Copy process started",
-		Data:    data,
+		Message:   "Copy process started",
+		Data:      data,
+		RequestId: reqId,
 	}
 	return env, http.StatusAccepted
 }

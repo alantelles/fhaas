@@ -1,0 +1,149 @@
+DEBUG: 2021/05/10 07:50:18 main.go:67: Starting FhaaS
+WARN: 2021/05/10 07:50:18 main.go:72: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 07:51:52 main.go:68: Starting FhaaS
+WARN: 2021/05/10 07:51:52 main.go:73: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 07:52:34 main.go:68: Starting FhaaS
+WARN: 2021/05/10 07:52:34 main.go:73: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 07:54:52 main.go:82: Starting FhaaS
+WARN: 2021/05/10 07:54:52 main.go:87: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 07:54:52 main.go:72: - Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 07:54:52 main.go:73: Stopping FhaaS
+DEBUG: 2021/05/10 07:55:25 main.go:82: Starting FhaaS
+WARN: 2021/05/10 07:55:25 main.go:87: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 07:55:41 main.go:72: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 07:55:41 main.go:73: Stopping FhaaS
+DEBUG: 2021/05/10 07:58:28.356528 main.go:82: Starting FhaaS
+WARN: 2021/05/10 07:58:28.356528 main.go:87: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 07:59:13.463893 main.go:72: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 07:59:13.463893 main.go:73: Stopping FhaaS
+DEBUG: 2021/05/10 07:59:16.732712 main.go:82: Starting FhaaS
+DEBUG: 2021/05/10 07:59:20.792059 main.go:51: From : Index handler called
+DEBUG: 2021/05/10 07:59:52.084282 main.go:72: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 07:59:52.084282 main.go:73: Stopping FhaaS
+DEBUG: 2021/05/10 08:13:05.323592 main.go:68: Starting FhaaS
+DEBUG: 2021/05/10 08:13:10.532531 logger.go:24: GET to / from 
+DEBUG: 2021/05/10 08:13:19.743225 main.go:58: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 08:13:19.743225 main.go:59: Stopping FhaaS
+DEBUG: 2021/05/10 08:18:08.631297 main.go:71: Starting FhaaS
+DEBUG: 2021/05/10 08:18:11.652050 logger.go:24: GET to / from 
+DEBUG: 2021/05/10 08:18:42.761784 main.go:61: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 08:18:42.763071 main.go:62: Stopping FhaaS
+DEBUG: 2021/05/10 08:19:00.519796 main.go:71: Starting FhaaS
+DEBUG: 2021/05/10 08:19:05.245209 logger.go:24: GET to / from 
+DEBUG: 2021/05/10 08:19:22.418516 main.go:61: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 08:19:22.418874 main.go:62: Stopping FhaaS
+DEBUG: 2021/05/10 08:20:02.775052 main.go:69: Starting FhaaS
+DEBUG: 2021/05/10 08:20:46.508332 main.go:59: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 08:20:46.508822 main.go:60: Stopping FhaaS
+DEBUG: 2021/05/10 08:23:33.651598 main.go:69: Starting FhaaS
+DEBUG: 2021/05/10 08:23:40.469658 logger.go:29: POST to /copy from 
+DEBUG: 2021/05/10 08:24:05.152936 main.go:59: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 08:24:05.153775 main.go:60: Stopping FhaaS
+DEBUG: 2021/05/10 08:30:14.849014 Starting FhaaS
+DEBUG: 2021/05/10 08:30:20.346448 POST to /copy from 
+DEBUG: 2021/05/10 08:30:35.232506 Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 08:30:35.232768 Stopping FhaaS
+DEBUG: 2021/05/10 08:30:51.125323 main.go:69: Starting FhaaS
+DEBUG: 2021/05/10 08:30:56.106189 copy_file.go:43: POST to /copy from 
+DEBUG: 2021/05/10 08:31:16.497893 main.go:59: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 08:31:16.497893 main.go:60: Stopping FhaaS
+DEBUG: 2021/05/10 08:31:45.587760 main.go:69: Starting FhaaS
+DEBUG: 2021/05/10 08:31:51.174992 main.go:49: GET to / from 
+DEBUG: 2021/05/10 08:32:02.187800 main.go:59: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 08:32:02.188267 main.go:60: Stopping FhaaS
+DEBUG: 2021/05/10 09:00:03.760261 main.go:69: Starting FhaaS
+DEBUG: 2021/05/10 09:00:07.877812 main.go:59: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 09:00:07.877812 main.go:60: Stopping FhaaS
+DEBUG: 2021/05/10 09:05:11.755644 main.go:69: Starting FhaaS
+DEBUG: 2021/05/10 09:05:18.074501 main.go:49: GET to / from 
+DEBUG: 2021/05/10 09:05:23.585673 main.go:59: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 09:05:23.586212 main.go:60: Stopping FhaaS
+DEBUG: 2021/05/10 09:05:42.193014 main.go:69: Starting FhaaS
+DEBUG: 2021/05/10 09:05:45.191187 main.go:49: [request] GET to / from (referer not sent)
+DEBUG: 2021/05/10 09:05:56.954986 copy_file.go:43: [request] POST to /copy from (referer not sent)
+DEBUG: 2021/05/10 09:07:03.461390 main.go:49: [request] GET to / from (referer not sent)
+DEBUG: 2021/05/10 09:07:29.060011 main.go:49: [request] GET to / from 192.168.1.3
+DEBUG: 2021/05/10 09:08:18.874159 main.go:59: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 09:08:18.874159 main.go:60: Stopping FhaaS
+DEBUG: 2021/05/10 09:27:31.915311 main.go:47: Starting FhaaS
+DEBUG: 2021/05/10 09:27:38.369988 copy_file.go:67: [request] POST to /copy from (referer not sent)
+DEBUG: 2021/05/10 09:27:57.564919 copy_file.go:67: [request] POST to /copy from (referer not sent)
+DEBUG: 2021/05/10 09:28:09.068797 helpers.go:23: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 09:28:09.068797 helpers.go:24: Stopping FhaaS
+DEBUG: 2021/05/10 09:37:43.978611 main.go:47: Starting FhaaS
+DEBUG: 2021/05/10 09:37:58.298974 helpers.go:23: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 09:37:58.298974 helpers.go:24: Stopping FhaaS
+DEBUG: 2021/05/10 09:40:23.565305 main.go:47: Starting FhaaS
+DEBUG: 2021/05/10 09:40:33.185637 main.go:38: [request] id: 6a27393c-0cb7-4670-af8f-150e4b618496 - GET to / from 192.168.1.3
+DEBUG: 2021/05/10 09:40:58.169196 helpers.go:23: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 09:40:58.169196 helpers.go:24: Stopping FhaaS
+DEBUG: 2021/05/10 09:53:19.526171 main.go:47: Starting FhaaS
+DEBUG: 2021/05/10 09:53:24.063841 copy_file.go:69: [request] id: 0f943be2-f465-40c9-beb9-5d74607a6ea7 - POST to /copy from (referer not sent)
+DEBUG: 2021/05/10 09:53:24.063841 copy_file.go:72: 
+DEBUG: 2021/05/10 09:53:24.131279 copy_file.go:57: Request 0f943be2-f465-40c9-beb9-5d74607a6ea7: File C:\Users\alango\Documents\videos\B084C001_2101258HS02.MXF copied to C:\Users\alango\Documents\videos_dest\B084C001_2101258HS02.MXF successfully
+DEBUG: 2021/05/10 09:54:15.827201 helpers.go:23: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 09:54:15.827201 helpers.go:24: Stopping FhaaS
+DEBUG: 2021/05/10 10:00:20.895088 main.go:47: Starting FhaaS
+DEBUG: 2021/05/10 10:00:30.270011 helpers.go:27: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 10:00:30.270011 helpers.go:28: Stopping FhaaS
+DEBUG: 2021/05/10 10:11:17.367923 main.go:47: Starting FhaaS
+DEBUG: 2021/05/10 10:11:18.132106 helpers.go:31: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 10:11:18.132738 helpers.go:32: Stopping FhaaS
+DEBUG: 2021/05/10 10:16:34.182807 main.go:47: Starting FhaaS
+WARN: 2021/05/10 10:16:34.183314 main.go:52: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 10:17:13.207631 main.go:38: [request] id: fcf043cc-5926-477a-973b-d01af64a3bd5 - GET to / from 192.168.1.3
+WARN: 2021/05/10 10:17:42.388987 decorators.go:25: Request 74434675-c64b-4dc7-9f1c-5e276d38a9b2 - FhaaS received a request that was not authorized. It may be a token/url mistake but also may have came from an undesired request. We suggest you to check your FhaaS entrypoints
+ERROR: 2021/05/10 10:17:42.388987 decorators.go:26: Request 74434675-c64b-4dc7-9f1c-5e276d38a9b2 - This request was not authorized by endpoint http://localhost:7000
+DEBUG: 2021/05/10 10:18:26.962733 helpers.go:31: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 10:18:26.962733 helpers.go:32: Stopping FhaaS
+DEBUG: 2021/05/10 10:33:52.797214 main.go:53: Starting FhaaS
+WARN: 2021/05/10 10:33:52.797214 main.go:58: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 10:39:24.020527 helpers.go:31: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 10:39:24.020604 helpers.go:32: Stopping FhaaS
+DEBUG: 2021/05/10 10:41:01.544835 main.go:57: Starting FhaaS
+WARN: 2021/05/10 10:41:01.544835 main.go:62: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+WARN: 2021/05/10 10:41:05.425526 decorators.go:25: Request dbd31ae7-98b2-4857-a46e-0027aefc0b4b - FhaaS received a request that was not authorized. It may be a token/url mistake but also may have came from an undesired/malicious requester. We suggest you to check your FhaaS network entrypoints
+ERROR: 2021/05/10 10:41:05.425526 decorators.go:26: Request dbd31ae7-98b2-4857-a46e-0027aefc0b4b - This request was not authorized by endpoint http://localhost:7000
+DEBUG: 2021/05/10 10:42:05.012732 helpers.go:31: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 10:42:05.012732 helpers.go:32: Stopping FhaaS
+DEBUG: 2021/05/10 10:42:44.472292 main.go:57: Starting FhaaS
+WARN: 2021/05/10 10:42:44.472854 main.go:62: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 10:44:00.013454 helpers.go:31: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 10:44:00.013454 helpers.go:32: Stopping FhaaS
+DEBUG: 2021/05/10 10:44:08.626536 main.go:57: Starting FhaaS
+WARN: 2021/05/10 10:44:08.626536 main.go:62: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 10:45:41.378087 helpers.go:31: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 10:45:41.378087 helpers.go:32: Stopping FhaaS
+DEBUG: 2021/05/10 14:09:27.748371 main.go:58: Starting FhaaS
+WARN: 2021/05/10 14:09:27.748371 main.go:63: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 14:09:28.777590 helpers.go:39: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 14:09:28.777590 helpers.go:40: Stopping FhaaS
+DEBUG: 2021/05/10 14:09:57.727042 main.go:58: Starting FhaaS
+WARN: 2021/05/10 14:09:57.727042 main.go:63: Flag authurl not set. Application will use FHAAS_AUTH_URL environment variable
+DEBUG: 2021/05/10 14:11:50.424923 decorators.go:38: Request ede5cb7b-b292-461b-b378-ae01921edf7f - Auth URL used for this request: 
+ERROR: 2021/05/10 14:11:50.447963 decorators.go:51: Request ede5cb7b-b292-461b-b378-ae01921edf7f - Authorized. Processing request.
+DEBUG: 2021/05/10 14:11:50.447963 main.go:49: [request] id: Request ede5cb7b-b292-461b-b378-ae01921edf7f - GET to / from 192.168.1.3
+DEBUG: 2021/05/10 14:12:17.419694 decorators.go:38: Request d2696f83-20ef-430e-9424-c12d07f393f6 - Auth URL used for this request: 
+ERROR: 2021/05/10 14:12:17.436122 decorators.go:51: Request d2696f83-20ef-430e-9424-c12d07f393f6 - Authorized. Processing request.
+DEBUG: 2021/05/10 14:12:17.436122 main.go:49: [request] id: Request d2696f83-20ef-430e-9424-c12d07f393f6 - GET to / from 192.168.1.3
+DEBUG: 2021/05/10 14:12:46.722897 helpers.go:39: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 14:12:46.722897 helpers.go:40: Stopping FhaaS
+DEBUG: 2021/05/10 19:27:50.871087 main.go:58: Starting FhaaS
+DEBUG: 2021/05/10 19:28:23.985166 decorators.go:38: Request 27ebef5a-750f-4afd-9467-7286313e9f2d - Auth URL used for this request: 
+ERROR: 2021/05/10 19:28:26.343896 decorators.go:44: Request 27ebef5a-750f-4afd-9467-7286313e9f2d - Authentication process failed: Post "http://localhost:7000": dial tcp [::1]:7000: connectex: Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente.
+WARN: 2021/05/10 19:28:26.346906 decorators.go:25: Request 27ebef5a-750f-4afd-9467-7286313e9f2d - FhaaS received a request that was not authorized. It may be a token/url mistake but also may have came from an undesired/malicious requester. We suggest you to check your FhaaS network entrypoints
+ERROR: 2021/05/10 19:28:26.347858 decorators.go:26: Request 27ebef5a-750f-4afd-9467-7286313e9f2d - This request was not authorized by endpoint http://localhost:7000
+DEBUG: 2021/05/10 19:29:03.011951 decorators.go:38: Request 28d05912-44fd-4f01-b9d6-8d19ccd778f7 - Auth URL used for this request: 
+ERROR: 2021/05/10 19:29:03.018300 decorators.go:51: Request 28d05912-44fd-4f01-b9d6-8d19ccd778f7 - Authorized. Processing request.
+DEBUG: 2021/05/10 19:29:03.018300 main.go:49: [request] id: Request 28d05912-44fd-4f01-b9d6-8d19ccd778f7 - GET to / from 192.168.1.3
+DEBUG: 2021/05/10 19:33:25.363179 decorators.go:38: Request f6add789-9b9b-410c-a5b9-e1d24b5f66d5 - Auth URL used for this request: 
+ERROR: 2021/05/10 19:33:25.371520 decorators.go:51: Request f6add789-9b9b-410c-a5b9-e1d24b5f66d5 - Authorized. Processing request.
+DEBUG: 2021/05/10 19:33:25.372057 copy_file.go:69: [request] id: Request f6add789-9b9b-410c-a5b9-e1d24b5f66d5 - POST to /copy from (referer not sent)
+DEBUG: 2021/05/10 19:33:25.372057 copy_file.go:72: 
+DEBUG: 2021/05/10 19:33:25.689060 copy_file.go:57: Request f6add789-9b9b-410c-a5b9-e1d24b5f66d5 - File C:\Users\alango\Documents\videos\B084C001_2101258HS02.MXF copied to C:\Users\alango\Documents\videos_dest\B084C001_2101258HS02.MXF successfully
+DEBUG: 2021/05/10 19:33:53.620308 decorators.go:38: Request b0f7000a-5bde-45d7-a780-45cb99f137a8 - Auth URL used for this request: 
+DEBUG: 2021/05/10 19:34:08.038952 decorators.go:38: Request b9490235-55f3-457a-ad05-78e81b8bada7 - Auth URL used for this request: 
+WARN: 2021/05/10 19:34:08.054197 decorators.go:25: Request b9490235-55f3-457a-ad05-78e81b8bada7 - FhaaS received a request that was not authorized. It may be a token/url mistake but also may have came from an undesired/malicious requester. We suggest you to check your FhaaS network entrypoints
+ERROR: 2021/05/10 19:34:08.054197 decorators.go:26: Request b9490235-55f3-457a-ad05-78e81b8bada7 - This request was not authorized by endpoint http://localhost:7000
+DEBUG: 2021/05/10 20:52:04.638842 helpers.go:39: Ctrl+C pressed in Terminal
+DEBUG: 2021/05/10 20:52:04.638842 helpers.go:40: Stopping FhaaS
