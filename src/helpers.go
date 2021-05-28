@@ -13,6 +13,7 @@ import (
 func dropReq(reqId string) string {
 	return strings.Replace(reqId, "Request ", "", -1)
 }
+
 func createBadRequestResponse(body []byte) (Envelope, int) {
 	var env Envelope
 	var status int
