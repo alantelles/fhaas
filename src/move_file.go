@@ -72,7 +72,7 @@ func moveInterfaceSync(reqId string, fileMoveSettings FileMoveBody) (Envelope, i
 	}
 	env := Envelope{
 		Data:      data,
-		RequestId: reqId,
+		RequestId: dropReq(reqId),
 	}
 	if err != nil {
 		logError.Printf("While processing move on %s: %v\n", reqId, err)

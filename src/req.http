@@ -47,3 +47,11 @@ PUT {{url}}/move
 {{sendstatusto}}
 
 {"file_in": "C:\\Users\\alango\\Documents\\videos\\topzeira.mxf", "file_out": "C:\\Users\\alango\\Documents\\videos_dest\\topzeira.mxf", "overwrite": true}
+
+###
+PUT {{url}}/move/many
+{{json}}
+{{auth}}
+{{authurl}}
+
+[{"file_in": "C:\\Users\\alango\\Documents\\claquetes_reais\\C100\\C100C007_210126BF.MXF", "file_out": "C:\\Users\\alango\\Documents\\claquetes_reais\\output\\C100C007_210126BF.MXF", "overwrite": false},{"file_in": "C:\\Users\\alango\\Documents\\claquetes_reais\\C100\\C100C008_210126DD.MXF", "file_out": "C:\\Users\\alango\\Documents\\claquetes_reais\\output\\C100C008_210126DD.MXF", "overwrite": false}]
