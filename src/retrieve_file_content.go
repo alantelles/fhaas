@@ -1,6 +1,7 @@
 package main
 
 import (
+	b64 "encoding/base64"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -27,15 +28,15 @@ func retrieveFileInterfaceSync(reqId string, fileRetrieveSettings FileRetrieveQu
 	content, err := retrieveFile(reqId, fileRetrieveSettings, 0)
 	logDebug.Printf("%s - Format requested: %s", reqId, fileRetrieveSettings.Format)
 	if fileRetrieveSettings.Format == "utf8" {
-		data["content"] = string(content)
-		/*} else if fileRetrieveSettings.Format == "ascii" {
-		contStr := strconv.QuoteToASCII(string(content))
-
-		data["content"] = contStr*/
+		toStr := string(content)
+		data["content"] = toStr
+		data["bytes_retrieved"] = len(toStr)
 	} else {
 		logDebug.Printf("%s - Format not available. Serving as base64", reqId)
 		data["content"] = content
+		data["bytes_retrieved"] = len(b64.StdEncoding.EncodeToString(content))
 	}
+
 	env := Envelope{
 		Data:      data,
 		RequestId: dropReq(reqId),

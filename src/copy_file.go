@@ -62,8 +62,8 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 	var status int
 	written, err := copyFile(reqId, fileCopySettings)
 	data := map[string]interface{}{
-		"bytesWritten": written,
-		"body":         fileCopySettings,
+		"bytes_written": written,
+		"body":          fileCopySettings,
 	}
 	env := Envelope{
 		Data:      data,

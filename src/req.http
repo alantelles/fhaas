@@ -57,6 +57,7 @@ PUT {{url}}/move/many
 [{"file_in": "C:\\Users\\alango\\Documents\\claquetes_reais\\C100\\C100C007_210126BF.MXF", "file_out": "C:\\Users\\alango\\Documents\\claquetes_reais\\output\\C100C007_210126BF.MXF", "overwrite": false},{"file_in": "C:\\Users\\alango\\Documents\\claquetes_reais\\C100\\C100C008_210126DD.MXF", "file_out": "C:\\Users\\alango\\Documents\\claquetes_reais\\output\\C100C008_210126DD.MXF", "overwrite": false}]
 
 ###
-GET {{url}}/retrieve?filename=\\wp021100\Users\alango\Documents\develop\globo\ailog-easylogx\build\exported\2021-05-11\GenericMeta\V_DESCONHECIDO_210125-134056-SSM\B084C001_2101258H.GEN
+GET {{url}}/retrieve?filename=\\wp021100\Users\alango\Documents\develop\globo\ailog-easylogx\build\exported\2021-05-11\GenericMeta\V_DESCONHECIDO_210125-134056-SSM\B084C001_2101258H.GEN&format=utf8
+
 {{auth}}
 {{authurl}}
