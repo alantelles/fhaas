@@ -30,6 +30,8 @@ const E_FHAAS_AUTH_URL = "FHAAS_AUTH_URL"
 var (
 	fhaasAuthEndpoint string
 	allowLogTokens    bool
+	nowThreads        int = 0
+	maxThreads        int
 
 	logWarn  *log.Logger
 	logDebug *log.Logger
@@ -50,11 +52,25 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		"docs": "future-link",
 	}
 	data := Envelope{
-		Message: "FhaaS - File handling as a service",
-		Data:    tt,
+		Message:   "FhaaS - File handling as a service",
+		Data:      tt,
+		Status:    http.StatusOK,
+		RequestId: w.Header().Get(H_REQUEST_ID),
 	}
 
 	respond(data, w, 200)
+}
+
+func getThreadsHandler(w http.ResponseWriter, r *http.Request) {
+	data := Envelope{
+		Message: "Active FhaaS threads",
+		Data: map[string]interface{}{
+			"now_threads": nowThreads,
+		},
+		Status:    http.StatusOK,
+		RequestId: w.Header().Get(H_REQUEST_ID),
+	}
+	respond(data, w, http.StatusOK)
 }
 
 func main() {

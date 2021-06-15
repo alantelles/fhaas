@@ -19,6 +19,7 @@ type FileCopyBody struct {
 }
 
 func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
+	nowThreads += 1
 	logDebug.Printf("%s - Starting copy.\n", reqId)
 	logDebug.Printf("%s - FileIn: %s\n", reqId, fileCopySettings.FileIn)
 	logDebug.Printf("%s - FileOut: %s\n", reqId, fileCopySettings.FileOut)

@@ -12,6 +12,20 @@ func setFlags() {
 	setAllowLogToken(logTokensPtr)
 }
 
+func getMaxThreads() *int {
+	return flag.Int("maxthreads", -1, "Maximum number of simultaneous processes allowed. 0 for no limit [use with caution]")
+}
+
+func setMaxThreads(value *int) {
+	maxThreads = *value
+	logDebug.Printf("maxthreads flag is set to %v\n", maxThreads)
+	if maxThreads != -1 {
+		logDebug.Printf("Maximum simultaneous processes allowed is %v. Requests received when this limit is reached will return a 503 (Service unavailable) as response status.\n", maxThreads)
+	} else {
+		logDebug.Printf("FhaaS is operating with no limit of simultaneous threads. This is highly not recommended. Use at your own risk.\n")
+	}
+}
+
 func getAuthUrlFlag() *string {
 	return flag.String("authurl", "", "Default authentication url")
 }

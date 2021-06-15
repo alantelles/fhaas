@@ -60,3 +60,6 @@ PUT {{url}}/move/many
 GET {{url}}/retrieve?filename=\\wp021100\Users\alango\Documents\develop\globo\ailog-easylogx\build\exported\2021-05-11\GenericMeta\V_DESCONHECIDO_210125-134056-SSM\B084C001_2101258H.GEN&format=utf8
 {{auth}}
 {{authurl}}
+###
+{{url}}/threads
+{{auth}}

@@ -20,8 +20,10 @@ func addDefaultHeaders(endpoint func(http.ResponseWriter, *http.Request)) http.H
 
 func respondNotAuthorized(w http.ResponseWriter, r *http.Request) {
 	env := Envelope{
-		Message: "Not-Authorized",
-		Data:    make(map[string]interface{}),
+		Message:   "Not-Authorized",
+		Data:      make(map[string]interface{}),
+		RequestId: w.Header().Get(H_REQUEST_ID),
+		Status:    http.StatusUnauthorized,
 	}
 
 	respond(env, w, 401)
@@ -34,6 +36,16 @@ func respondNotAuthorized(w http.ResponseWriter, r *http.Request) {
 // 		}
 // 	})
 // }
+func respondBadAuthorizationTry(w http.ResponseWriter, r *http.Request) {
+	env := Envelope{
+		Message:   "Missing application authorization headers",
+		Data:      make(map[string]interface{}),
+		RequestId: w.Header().Get(H_REQUEST_ID),
+		Status:    http.StatusBadRequest,
+	}
+
+	respond(env, w, http.StatusBadRequest)
+}
 
 func verifyAuth(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -67,6 +79,8 @@ func verifyAuth(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerF
 			}
 		} else {
 			fmt.Println("One or more of needed auth headers are missed.")
+			logDebug.Printf("%s - One or more of needed auth headers are missed. Request will not be processed\n", reqId)
+			respondBadAuthorizationTry(w, r)
 		}
 
 	})

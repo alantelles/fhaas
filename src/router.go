@@ -22,6 +22,8 @@ func handleRequests() {
 	//retrieve routes
 	r.HandleFunc("/retrieve", addDefaultHeaders(verifyAuth(retrieveFileContentHandler))).Methods("GET")
 
+	r.HandleFunc("/threads", addDefaultHeaders(verifyAuth(getThreadsHandler))).Methods("GET")
+
 	fmt.Println("Serving at 8080...")
 	http.ListenAndServe(":8080", r)
 }
