@@ -18,6 +18,36 @@ func addDefaultHeaders(endpoint func(http.ResponseWriter, *http.Request)) http.H
 	})
 }
 
+func checkThreadLimit(endpoint func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		logDebug.Println("Checking thread limit.")
+		logDebug.Printf("%v threads being processed now\n", nowThreads)
+		percentBusy := 100.0 * float64(nowThreads) / float64(maxThreads)
+		if nowThreads < maxThreads {
+			logDebug.Println("Request allowed.")
+			if percentBusy >= 90 {
+				logWarn.Println("The server is operating at 90% of capacity. Consider deploying more instances of FhaaS")
+			}
+			endpoint(w, r)
+		} else {
+			logDebug.Println("A request was rejected due to system over capacity. Rejected requests are not identified.")
+			respondOverCapacity(w, r)
+		}
+	})
+}
+
+func respondOverCapacity(w http.ResponseWriter, r *http.Request) {
+	env := Envelope{
+		Message: "The server is over capacity. Try again some time later.",
+		Data: map[string]interface{}{
+			"max_threads": maxThreads,
+		},
+		RequestId: "",
+		Status:    http.StatusServiceUnavailable,
+	}
+	respond(env, w, http.StatusServiceUnavailable)
+}
+
 func respondNotAuthorized(w http.ResponseWriter, r *http.Request) {
 	env := Envelope{
 		Message:   "Not-Authorized",

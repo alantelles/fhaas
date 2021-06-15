@@ -20,7 +20,7 @@ func handleRequests() {
 	r.HandleFunc("/move/many", addDefaultHeaders(verifyAuth(moveFileListHandler))).Methods("PUT")
 
 	//retrieve routes
-	r.HandleFunc("/retrieve", addDefaultHeaders(verifyAuth(retrieveFileContentHandler))).Methods("GET")
+	r.HandleFunc("/retrieve", checkThreadLimit(addDefaultHeaders(verifyAuth(retrieveFileContentHandler)))).Methods("GET")
 
 	r.HandleFunc("/threads", addDefaultHeaders(verifyAuth(getThreadsHandler))).Methods("GET")
 
