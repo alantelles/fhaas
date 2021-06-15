@@ -19,10 +19,10 @@ type FileCopyBody struct {
 }
 
 func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
-	logDebug.Printf("%s - Starting copy.", reqId)
-	logDebug.Printf("%s - FileIn: %s", reqId, fileCopySettings.FileIn)
-	logDebug.Printf("%s - FileOut: %s", reqId, fileCopySettings.FileOut)
-	logDebug.Printf("%s - Overwrite: %v", reqId, fileCopySettings.Overwrite)
+	logDebug.Printf("%s - Starting copy.\n", reqId)
+	logDebug.Printf("%s - FileIn: %s\n", reqId, fileCopySettings.FileIn)
+	logDebug.Printf("%s - FileOut: %s\n", reqId, fileCopySettings.FileOut)
+	logDebug.Printf("%s - Overwrite: %v\n", reqId, fileCopySettings.Overwrite)
 
 	destExists := fileExists(fileCopySettings.FileOut)
 	if fileCopySettings.Overwrite || !destExists {

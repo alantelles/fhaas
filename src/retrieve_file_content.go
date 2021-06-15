@@ -13,10 +13,13 @@ type FileRetrieveQuery struct {
 }
 
 func retrieveFile(reqId string, fileRetrieveSettings FileRetrieveQuery, index int) ([]byte, error) {
+	logDebug.Printf("%s - Retrieving file.\n", reqId)
+	logDebug.Printf("%s - FileName: %s\n", reqId, fileRetrieveSettings.Files[index])
 	content, err := ioutil.ReadFile(fileRetrieveSettings.Files[index])
 	if err != nil {
 		return content, err
 	}
+	logDebug.Printf("%s - File %s retrieved successfully\n", reqId, fileRetrieveSettings.Files[index])
 	return content, err
 }
 
@@ -26,13 +29,13 @@ func retrieveFileInterfaceSync(reqId string, fileRetrieveSettings FileRetrieveQu
 		"query": fileRetrieveSettings,
 	}
 	content, err := retrieveFile(reqId, fileRetrieveSettings, 0)
-	logDebug.Printf("%s - Format requested: %s", reqId, fileRetrieveSettings.Format)
+	logDebug.Printf("%s - Format requested: %s\n", reqId, fileRetrieveSettings.Format)
 	if fileRetrieveSettings.Format == "utf8" {
 		toStr := string(content)
 		data["content"] = toStr
 		data["bytes_retrieved"] = len(toStr)
 	} else {
-		logDebug.Printf("%s - Format not available. Serving as base64", reqId)
+		logDebug.Printf("%s - Format not available. Serving as base64\n", reqId)
 		data["content"] = content
 		data["bytes_retrieved"] = len(b64.StdEncoding.EncodeToString(content))
 	}
