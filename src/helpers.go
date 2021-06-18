@@ -4,14 +4,40 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
+	"regexp"
 	"strings"
 	"syscall"
 )
 
 func dropReq(reqId string) string {
 	return strings.Replace(reqId, "Request ", "", -1)
+}
+
+func fileNameAttendFilters(subject string, filters []string) bool {
+	for _, filter := range filters {
+		matched, err := regexp.MatchString(filter, subject)
+		if err != nil {
+			continue
+		}
+		if matched {
+			return true
+		}
+	}
+	return false
+}
+
+func checkQueryParam(query url.Values, param string) (bool, string, []string) {
+	contains := false
+	value := ""
+	composed := query[param]
+	if len(composed) > 0 {
+		value = composed[0]
+		contains = true
+	}
+	return contains, value, composed
 }
 
 func createBadRequestResponse(body []byte) (Envelope, int) {

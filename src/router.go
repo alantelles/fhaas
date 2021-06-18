@@ -22,6 +22,9 @@ func handleRequests() {
 	//retrieve routes
 	r.HandleFunc("/retrieve", checkThreadLimit(addDefaultHeaders(verifyAuth(retrieveFileContentHandler)))).Methods("GET")
 
+	//list files
+	r.HandleFunc("/list", checkThreadLimit(addDefaultHeaders(verifyAuth(listFolderContentContentHandler)))).Methods("GET")
+
 	r.HandleFunc("/threads", addDefaultHeaders(verifyAuth(getThreadsHandler))).Methods("GET")
 
 	fmt.Println("Serving at 8080...")
