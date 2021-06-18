@@ -5,14 +5,16 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
+	"path/filepath"
 	"time"
 )
 
 type ListFolderQuery struct {
 	Path          string   `json:"path"`
 	Recursive     bool     `json:"recursive"`
-	IncludeHidden bool     `json:"show_hidden"`
-	IncludeDirs   bool     `json:"show_dirs"`
+	IncludeHidden bool     `json:"hidden"`
+	IncludeDirs   bool     `json:"dirs"`
 	Filters       []string `json:"filter"`
 }
 
@@ -23,28 +25,56 @@ type FileInfoConform struct {
 	IsDirectory bool      `json:"is_directory"`
 }
 
+func fillFileInfoConform(file os.FileInfo, path string) FileInfoConform {
+	fileInfo := FileInfoConform{}
+	fileInfo.FileName = path
+	fileInfo.Size = int(file.Size())
+	fileInfo.LastMod = file.ModTime()
+	fileInfo.IsDirectory = file.IsDir()
+	return fileInfo
+}
+
 func listFolderContent(reqId string, listFolderSettings ListFolderQuery, index int) ([]FileInfoConform, error) {
 
 	logDebug.Printf("%s - Listing folder content.\n", reqId)
 	logDebug.Printf("%s - Path: %s\n", reqId, listFolderSettings.Path)
-	files, err := ioutil.ReadDir(listFolderSettings.Path)
 	results := make([]FileInfoConform, 0)
-	if err != nil {
-		return results, err
-	}
-
-	for _, file := range files {
-		attendFilters := fileNameAttendFilters(file.Name(), listFolderSettings.Filters)
-		if attendFilters {
-			fileInfo := FileInfoConform{}
-			fileInfo.FileName = file.Name()
-			fileInfo.Size = int(file.Size())
-			fileInfo.LastMod = file.ModTime()
-			fileInfo.IsDirectory = file.IsDir()
-			results = append(results, fileInfo)
+	noFilters := len(listFolderSettings.Filters) == 0
+	if !listFolderSettings.Recursive {
+		files, err := ioutil.ReadDir(listFolderSettings.Path)
+		if err != nil {
+			return results, err
 		}
+		for _, file := range files {
+			attendFilters := fileNameAttendFilters(file.Name(), listFolderSettings.Filters)
+			isHidden := string(file.Name()[0]) == "."
+			shouldIncludeIfHidden := (isHidden && listFolderSettings.IncludeHidden) || !isHidden
+			isDir := file.IsDir()
+			shouldIncludeIfDir := (listFolderSettings.IncludeDirs && isDir) || !isDir
+			if (noFilters || attendFilters) && shouldIncludeIfHidden && shouldIncludeIfDir {
+				fileInfo := fillFileInfoConform(file, filepath.Join(listFolderSettings.Path, file.Name()))
+				results = append(results, fileInfo)
+			}
+		}
+	} else {
+		err := filepath.Walk(listFolderSettings.Path, func(path string, file os.FileInfo, err error) error {
+			attendFilters := fileNameAttendFilters(file.Name(), listFolderSettings.Filters)
+			isHidden := string(file.Name()[0]) == "."
+			shouldIncludeIfHidden := (isHidden && listFolderSettings.IncludeHidden) || !isHidden
+			isDir := file.IsDir()
+			shouldIncludeIfDir := (listFolderSettings.IncludeDirs && isDir) || !isDir
+			if (noFilters || attendFilters) && shouldIncludeIfHidden && shouldIncludeIfDir {
+				fileInfo := fillFileInfoConform(file, path)
+				results = append(results, fileInfo)
+			}
+			return nil
+		})
+		if err != nil {
+			return results, err
+		}
+
 	}
-	return results, err
+	return results, nil
 }
 
 func listFolderContentInterfaceSync(reqId string, listFolderSettings ListFolderQuery) (Envelope, int) {
@@ -89,9 +119,9 @@ func checkListFolderQuery(r *http.Request) (ListFolderQuery, error) {
 	listQuery.Path = value
 	contains, value, _ = checkQueryParam(query, "recursive")
 	listQuery.Recursive = contains
-	contains, _, _ = checkQueryParam(query, "show_hidden")
+	contains, _, _ = checkQueryParam(query, "hidden")
 	listQuery.IncludeHidden = contains
-	contains, _, _ = checkQueryParam(query, "show_dirs")
+	contains, _, _ = checkQueryParam(query, "dirs")
 	listQuery.IncludeDirs = contains
 	_, _, values = checkQueryParam(query, "filter")
 	listQuery.Filters = values
