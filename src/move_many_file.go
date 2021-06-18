@@ -10,6 +10,7 @@ import (
 )
 
 func moveListInterfaceSync(reqId string, fileListMoveSettings []FileMoveBody) (Envelope, int) {
+	nowThreads += 1
 	var (
 		env         Envelope
 		envList     []Envelope
@@ -40,10 +41,12 @@ func moveListInterfaceSync(reqId string, fileListMoveSettings []FileMoveBody) (E
 	env.Data = data
 	env.Message = "Moves processed"
 	env.RequestId = strings.Replace(reqId, "Request ", "", -1)
+	nowThreads -= 1
 	return env, finalStatus
 }
 
 func moveListAsyncWrapper(reqId string, fileListMoveSettings []FileMoveBody, sendStatusTo, sendStatusAuth string) {
+	nowThreads += 1
 	var (
 		env         Envelope
 		envList     []Envelope
@@ -95,7 +98,7 @@ func moveListAsyncWrapper(reqId string, fileListMoveSettings []FileMoveBody, sen
 		respStr := string(respBytes)
 		logDebug.Printf("%s - Status endpoint returned with: %s", reqId, respStr)
 	}
-	// return env, finalStatus
+	nowThreads -= 1
 }
 
 func moveListInterfaceASync(reqId string, fileListMoveSettings []FileMoveBody, sendStatusTo, sendStatusAuth string) (Envelope, int) {

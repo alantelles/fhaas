@@ -10,6 +10,7 @@ import (
 )
 
 func copyListInterfaceSync(reqId string, fileListCopySettings []FileCopyBody) (Envelope, int) {
+	nowThreads += 1
 	var (
 		env         Envelope
 		envList     []Envelope
@@ -40,10 +41,12 @@ func copyListInterfaceSync(reqId string, fileListCopySettings []FileCopyBody) (E
 	env.Data = data
 	env.Message = "Copies processed"
 	env.RequestId = strings.Replace(reqId, "Request ", "", -1)
+	nowThreads -= 1
 	return env, finalStatus
 }
 
 func copyListAsyncWrapper(reqId string, fileListCopySettings []FileCopyBody, sendStatusTo, sendStatusAuth string) {
+	nowThreads += 1
 	var (
 		env         Envelope
 		envList     []Envelope
@@ -96,6 +99,7 @@ func copyListAsyncWrapper(reqId string, fileListCopySettings []FileCopyBody, sen
 		logDebug.Printf("%s - Status endpoint returned with: %s", reqId, respStr)
 	}
 	// return env, finalStatus
+	nowThreads -= 1
 }
 
 func copyListInterfaceASync(reqId string, fileListCopySettings []FileCopyBody, sendStatusTo, sendStatusAuth string) (Envelope, int) {

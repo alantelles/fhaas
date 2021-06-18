@@ -64,6 +64,7 @@ func moveFile(reqId string, fileMoveSettings FileMoveBody) (int, error) {
 }
 
 func moveInterfaceSync(reqId string, fileMoveSettings FileMoveBody) (Envelope, int) {
+	nowThreads += 1
 	var status int
 	written, err := moveFile(reqId, fileMoveSettings)
 	data := map[string]interface{}{
@@ -88,10 +89,12 @@ func moveInterfaceSync(reqId string, fileMoveSettings FileMoveBody) (Envelope, i
 		}
 
 	}
+	nowThreads -= 1
 	return env, status
 }
 
 func moveAsyncWrapper(reqId string, fileMoveSettings FileMoveBody, sendStatusTo string, sendStatusAuth string) {
+	nowThreads += 1
 	var status int
 	written, err := moveFile(reqId, fileMoveSettings)
 	env := Envelope{RequestId: reqId}
@@ -136,6 +139,7 @@ func moveAsyncWrapper(reqId string, fileMoveSettings FileMoveBody, sendStatusTo 
 		respStr := string(respBytes)
 		logDebug.Printf("%s - Status endpoint returned with: %s", reqId, respStr)
 	}
+	nowThreads -= 1
 }
 
 func moveInterfaceASync(reqId string, fileMoveSettings FileMoveBody, sendStatusTo string, sendStatusAuth string) (Envelope, int) {

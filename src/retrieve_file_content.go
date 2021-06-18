@@ -13,7 +13,6 @@ type FileRetrieveQuery struct {
 }
 
 func retrieveFile(reqId string, fileRetrieveSettings FileRetrieveQuery, index int) ([]byte, error) {
-	nowThreads += 1
 	logDebug.Printf("%s - Retrieving file.\n", reqId)
 	logDebug.Printf("%s - FileName: %s\n", reqId, fileRetrieveSettings.Files[index])
 	content, err := ioutil.ReadFile(fileRetrieveSettings.Files[index])
@@ -21,11 +20,11 @@ func retrieveFile(reqId string, fileRetrieveSettings FileRetrieveQuery, index in
 		return content, err
 	}
 	logDebug.Printf("%s - File %s retrieved successfully\n", reqId, fileRetrieveSettings.Files[index])
-	nowThreads -= 1
 	return content, err
 }
 
 func retrieveFileInterfaceSync(reqId string, fileRetrieveSettings FileRetrieveQuery) (Envelope, int) {
+	nowThreads += 1
 	var status int
 	data := map[string]interface{}{
 		"query": fileRetrieveSettings,
@@ -55,6 +54,7 @@ func retrieveFileInterfaceSync(reqId string, fileRetrieveSettings FileRetrieveQu
 		status = http.StatusOK
 	}
 	env.Status = status
+	nowThreads -= 1
 	return env, status
 }
 

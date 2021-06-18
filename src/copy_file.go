@@ -19,7 +19,6 @@ type FileCopyBody struct {
 }
 
 func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
-	nowThreads += 1
 	logDebug.Printf("%s - Starting copy.\n", reqId)
 	logDebug.Printf("%s - FileIn: %s\n", reqId, fileCopySettings.FileIn)
 	logDebug.Printf("%s - FileOut: %s\n", reqId, fileCopySettings.FileOut)
@@ -60,6 +59,7 @@ func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
 }
 
 func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, int) {
+	nowThreads += 1
 	var status int
 	written, err := copyFile(reqId, fileCopySettings)
 	data := map[string]interface{}{
@@ -84,10 +84,12 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 		}
 
 	}
+	nowThreads -= 1
 	return env, status
 }
 
 func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo, sendStatusAuth string) {
+	nowThreads += 1
 	var status int
 	written, err := copyFile(reqId, fileCopySettings)
 	env := Envelope{RequestId: reqId}
@@ -131,6 +133,7 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo,
 		respStr := string(respBytes)
 		logDebug.Printf("%s - Status endpoint returned with: %s", reqId, respStr)
 	}
+	nowThreads -= 1
 }
 
 func copyInterfaceASync(reqId string, fileCopySettings FileCopyBody, sendStatusTo, sendStatusAuth string) (Envelope, int) {

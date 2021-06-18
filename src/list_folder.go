@@ -25,13 +25,11 @@ type FileInfoConform struct {
 
 func listFolderContent(reqId string, listFolderSettings ListFolderQuery, index int) ([]FileInfoConform, error) {
 
-	nowThreads += 1
 	logDebug.Printf("%s - Listing folder content.\n", reqId)
 	logDebug.Printf("%s - Path: %s\n", reqId, listFolderSettings.Path)
 	files, err := ioutil.ReadDir(listFolderSettings.Path)
 	results := make([]FileInfoConform, 0)
 	if err != nil {
-		nowThreads -= 1
 		return results, err
 	}
 
@@ -46,11 +44,11 @@ func listFolderContent(reqId string, listFolderSettings ListFolderQuery, index i
 			results = append(results, fileInfo)
 		}
 	}
-	nowThreads -= 1
 	return results, err
 }
 
 func listFolderContentInterfaceSync(reqId string, listFolderSettings ListFolderQuery) (Envelope, int) {
+	nowThreads += 1
 	var status int
 	data := map[string]interface{}{
 		"query": listFolderSettings,
@@ -70,6 +68,7 @@ func listFolderContentInterfaceSync(reqId string, listFolderSettings ListFolderQ
 		status = http.StatusOK
 	}
 	env.Status = status
+	nowThreads -= 1
 	return env, status
 }
 
