@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -79,12 +80,16 @@ func listFolderContent(reqId string, listFolderSettings ListFolderQuery, index i
 
 func listFolderContentInterfaceSync(reqId string, listFolderSettings ListFolderQuery) (Envelope, int) {
 	nowThreads += 1
+	logDebug.Printf("%s - Listing folder content at path %s\n", reqId, listFolderSettings.Path)
+	marshalListFolder, _ := json.Marshal(listFolderSettings)
+	logDebug.Printf("%s - Operations settings: %v\n", reqId, string(marshalListFolder))
 	var status int
 	data := map[string]interface{}{
 		"query": listFolderSettings,
 	}
 	content, err := listFolderContent(reqId, listFolderSettings, 0)
 	data["files"] = content
+	data["count"] = len(content)
 	env := Envelope{
 		Data:      data,
 		RequestId: dropReq(reqId),
@@ -97,6 +102,7 @@ func listFolderContentInterfaceSync(reqId string, listFolderSettings ListFolderQ
 		env.Message = "Folder content retrieved successfully"
 		status = http.StatusOK
 	}
+	logDebug.Printf("%s - %s", reqId, env.Message)
 	env.Status = status
 	nowThreads -= 1
 	return env, status
@@ -108,9 +114,7 @@ func checkListFolderQuery(r *http.Request) (ListFolderQuery, error) {
 		value    string
 		values   []string
 	)
-	listQuery := ListFolderQuery{
-		Recursive: false,
-	}
+	listQuery := ListFolderQuery{}
 	query := r.URL.Query()
 	contains, value, _ = checkQueryParam(query, "path")
 	if !contains {
