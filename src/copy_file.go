@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -16,6 +17,7 @@ type FileCopyBody struct {
 	FileIn    string `json:"file_in"`
 	FileOut   string `json:"file_out"`
 	Overwrite bool   `json:"overwrite"`
+	CreateDir bool   `json:"create_dir"`
 }
 
 func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
@@ -23,6 +25,7 @@ func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
 	logDebug.Printf("%s - FileIn: %s\n", reqId, fileCopySettings.FileIn)
 	logDebug.Printf("%s - FileOut: %s\n", reqId, fileCopySettings.FileOut)
 	logDebug.Printf("%s - Overwrite: %v\n", reqId, fileCopySettings.Overwrite)
+	logDebug.Printf("%s - CreateDir: %v\n", reqId, fileCopySettings.CreateDir)
 
 	destExists := fileExists(fileCopySettings.FileOut)
 	if fileCopySettings.Overwrite || !destExists {
@@ -37,6 +40,15 @@ func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
 			return 0, err
 		}
 		defer orig.Close()
+		if fileCopySettings.CreateDir {
+			destDir := filepath.Dir(fileCopySettings.FileOut)
+			if destDir != "." {
+				err := os.MkdirAll(destDir, 777)
+				if err != nil {
+					return 0, err
+				}
+			}
+		}
 
 		new, err := os.Create(fileCopySettings.FileOut)
 		if err != nil {
@@ -85,6 +97,7 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 
 	}
 	nowThreads -= 1
+	env.Status = status
 	return env, status
 }
 
@@ -92,7 +105,7 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo,
 	nowThreads += 1
 	var status int
 	written, err := copyFile(reqId, fileCopySettings)
-	env := Envelope{RequestId: reqId}
+	env := Envelope{RequestId: strings.Replace(reqId, "Request ", "", -1)}
 	if err != nil {
 		logError.Printf("Error while processing copy on %s: %v\n", reqId, err)
 		env.Message = fmt.Sprintf("Operation failed: %v", err)
@@ -112,11 +125,14 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo,
 		"status":       status,
 	}
 	env.Data = data
+	env.Status = status
 	if sendStatusTo != "" {
 		body, _ := json.Marshal(env)
 		logDebug.Printf("%s - Status: %s", reqId, string(body))
 		logDebug.Printf("%s - Sending status to %s", reqId, sendStatusTo)
 		req, err := http.NewRequest("POST", sendStatusTo, bytes.NewReader(body))
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("User-Agent", "FhaaS/Go-http-client/1.1")
 		if err != nil {
 			logError.Printf("%s - Error while creating request to send status: %v", reqId, err)
 		}
@@ -144,7 +160,7 @@ func copyInterfaceASync(reqId string, fileCopySettings FileCopyBody, sendStatusT
 	env := Envelope{
 		Message:   "Copy process started",
 		Data:      data,
-		RequestId: reqId,
+		RequestId: strings.Replace(reqId, "Request ", "", -1),
 	}
 	return env, http.StatusAccepted
 }

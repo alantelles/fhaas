@@ -39,6 +39,7 @@ func copyListInterfaceSync(reqId string, fileListCopySettings []FileCopyBody) (E
 		"result": envList,
 	}
 	env.Data = data
+	env.Status = finalStatus
 	env.Message = "Copies processed"
 	env.RequestId = strings.Replace(reqId, "Request ", "", -1)
 	nowThreads -= 1
@@ -62,12 +63,17 @@ func copyListAsyncWrapper(reqId string, fileListCopySettings []FileCopyBody, sen
 		if finalStatus == 0 {
 			finalStatus = status
 		} else {
-			if status != 201 && finalStatus == 201 {
-				finalStatus = 207
+			if status == 201 && finalStatus == 201 {
+				finalStatus = 201
+			} else {
+				if status != 201 && finalStatus == 201 {
+					finalStatus = 207
+				}
+				if status == 201 && finalStatus != 207 {
+					finalStatus = 207
+				}
 			}
-			if status == 201 && finalStatus != 207 {
-				finalStatus = 207
-			}
+
 		}
 	}
 	data := map[string]interface{}{
@@ -76,6 +82,7 @@ func copyListAsyncWrapper(reqId string, fileListCopySettings []FileCopyBody, sen
 	}
 	env.Data = data
 	env.RequestId = dropReq(reqId)
+	env.Status = finalStatus
 	env.Message = "Copies processed"
 	if sendStatusTo != "" {
 		body, _ := json.Marshal(env)
