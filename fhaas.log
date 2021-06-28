@@ -1,0 +1,28 @@
+DEBUG: 2021/06/28 19:21:09.776745 main.go:80: Starting FhaaS
+DEBUG: 2021/06/28 19:21:09.809782 set_flags.go:40: Using http://localhost:8000/api/v1/auth as url for authorization.
+DEBUG: 2021/06/28 19:21:09.809794 set_flags.go:56: logtokens is set to false.
+DEBUG: 2021/06/28 19:21:09.809794 set_flags.go:23: maxthreads flag is set to 10
+DEBUG: 2021/06/28 19:21:09.809794 set_flags.go:25: Maximum simultaneous processes allowed is 10. Requests received when this limit is reached will return a 503 (Service unavailable) as response status.
+DEBUG: 2021/06/28 19:22:08.241707 decorators.go:23: Checking thread limit.
+DEBUG: 2021/06/28 19:22:08.242510 decorators.go:24: 0 threads being processed now
+DEBUG: 2021/06/28 19:22:08.242510 decorators.go:27: Request allowed.
+DEBUG: 2021/06/28 19:22:08.243174 decorators.go:13: [request] id: b2a2d6f9-bc7e-4977-907c-79d203f4307f - GET to /file_info from (referer not sent)
+DEBUG: 2021/06/28 19:22:08.246541 decorators.go:89: Request b2a2d6f9-bc7e-4977-907c-79d203f4307f - Auth URL used for this request: http://localhost:8000/api/v1/auth
+DEBUG: 2021/06/28 19:22:08.629192 decorators.go:107: Request b2a2d6f9-bc7e-4977-907c-79d203f4307f - Authorized by http://localhost:8000/api/v1/auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/06/28 19:22:08.629192 retrieve_file_info.go:52: Request b2a2d6f9-bc7e-4977-907c-79d203f4307f - Starting retrieve file info handling
+DEBUG: 2021/06/28 19:22:33.975076 helpers.go:124: Ctrl+C pressed in Terminal
+DEBUG: 2021/06/28 19:22:33.975977 helpers.go:125: Stopping FhaaS
+DEBUG: 2021/06/28 19:24:10.614550 main.go:80: Starting FhaaS
+DEBUG: 2021/06/28 19:24:10.640491 set_flags.go:40: Using http://localhost:8000/api/v1/auth as url for authorization.
+DEBUG: 2021/06/28 19:24:10.640491 set_flags.go:56: logtokens is set to false.
+DEBUG: 2021/06/28 19:24:10.640491 set_flags.go:23: maxthreads flag is set to 10
+DEBUG: 2021/06/28 19:24:10.640491 set_flags.go:25: Maximum simultaneous processes allowed is 10. Requests received when this limit is reached will return a 503 (Service unavailable) as response status.
+DEBUG: 2021/06/28 19:24:17.423609 decorators.go:23: Checking thread limit.
+DEBUG: 2021/06/28 19:24:17.423609 decorators.go:24: 0 threads being processed now
+DEBUG: 2021/06/28 19:24:17.423609 decorators.go:27: Request allowed.
+DEBUG: 2021/06/28 19:24:17.423609 decorators.go:13: [request] id: c7b5b3c6-7fbb-445c-84db-03d99518578c - GET to /file_info from (referer not sent)
+DEBUG: 2021/06/28 19:24:17.426691 decorators.go:89: Request c7b5b3c6-7fbb-445c-84db-03d99518578c - Auth URL used for this request: http://localhost:8000/api/v1/auth
+DEBUG: 2021/06/28 19:24:17.785601 decorators.go:107: Request c7b5b3c6-7fbb-445c-84db-03d99518578c - Authorized by http://localhost:8000/api/v1/auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/06/28 19:24:17.785601 retrieve_file_info.go:52: Request c7b5b3c6-7fbb-445c-84db-03d99518578c - Starting retrieve file info handling
+DEBUG: 2021/06/28 19:24:31.551453 helpers.go:124: Ctrl+C pressed in Terminal
+DEBUG: 2021/06/28 19:24:31.551837 helpers.go:125: Stopping FhaaS

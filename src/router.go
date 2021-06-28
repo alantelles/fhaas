@@ -26,7 +26,7 @@ func handleRequests() {
 	r.HandleFunc("/list", checkThreadLimit(addDefaultHeaders(verifyAuth(listFolderContentContentHandler)))).Methods("GET")
 
 	//get file info
-	r.HandleFunc("/info", checkThreadLimit(addDefaultHeaders(verifyAuth(retrieveFileInfoHandler)))).Methods("GET")
+	r.HandleFunc("/file_info", checkThreadLimit(addDefaultHeaders(verifyAuth(retrieveFileInfoHandler)))).Methods("GET")
 
 	//aux
 	r.HandleFunc("/threads", addDefaultHeaders(verifyAuth(getThreadsHandler))).Methods("GET")

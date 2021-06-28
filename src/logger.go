@@ -5,13 +5,12 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path"
-	"time"
 )
 
 func configureLogger() {
-	nowTime := time.Now().Format("2006-01-02")
-	logFileName := path.Join("logs", nowTime+".log")
+	//nowTime := time.Now().Format("2006-01-02")
+	// logFileName := path.Join("logs", nowTime+".log")
+	logFileName := "fhaas.log"
 	logFile, err := os.OpenFile(logFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)

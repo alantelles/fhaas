@@ -58,6 +58,7 @@ func retrieveFileInfoHandler(w http.ResponseWriter, r *http.Request) {
 			"query": r.URL.Query(),
 		}
 		env.Status = http.StatusBadRequest
+		status = http.StatusBadRequest
 		env.RequestId = dropReq(reqId)
 	} else {
 
@@ -65,6 +66,7 @@ func retrieveFileInfoHandler(w http.ResponseWriter, r *http.Request) {
 			Files: filename,
 		}
 		env, status = retrieveFileInfoInterfaceSync(reqId, fileRetrieveSettings)
+		env.Status = status
 	}
 	respond(env, w, status)
 }

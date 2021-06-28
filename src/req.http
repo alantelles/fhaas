@@ -65,7 +65,11 @@ GET {{url}}/retrieve?filename=\\wp021100\Users\alango\Documents\develop\globo\ai
 {{url}}/threads
 {{auth}}
 ###
-GET {{url}}/info?filename=\\wp021100\Users\alango\Documents\develop\globo\ailog-easylogx\build\exported\2021-05-11\GenericMeta\V_DESCONHECIDO_210125-134056-SSM\B084C001_2101258H.GEN
+GET {{url}}/file_info?filename=\\wp021100\Users\alango\Documents\develop\globo\ailog-easylogx\build\exported\2021-05-11\GenericMeta\V_DESCONHECIDO_210125-134056-SSM\B084C001_2101258H.GEN
 {{auth}}
 {{authurl}}
 ###
+###
+GET {{url}}/info?filename=C:\Users\alango\Documents\claquetes_reais\C100\C100C011_210126UE.MXF
+{{auth}}
+{{authurl}}

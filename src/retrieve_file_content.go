@@ -74,6 +74,7 @@ func retrieveFileContentHandler(w http.ResponseWriter, r *http.Request) {
 			"query": r.URL.Query(),
 		}
 		env.Status = http.StatusBadRequest
+		status = http.StatusBadRequest
 		env.RequestId = dropReq(reqId)
 	} else {
 		formatRetr := "base64"

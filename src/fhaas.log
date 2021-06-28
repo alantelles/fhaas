@@ -1,0 +1,48 @@
+DEBUG: 2021/06/28 19:25:34.967940 main.go:80: Starting FhaaS
+DEBUG: 2021/06/28 19:25:34.991189 set_flags.go:40: Using http://localhost:8000/api/v1/auth as url for authorization.
+DEBUG: 2021/06/28 19:25:34.992189 set_flags.go:56: logtokens is set to false.
+DEBUG: 2021/06/28 19:25:34.992189 set_flags.go:23: maxthreads flag is set to 10
+DEBUG: 2021/06/28 19:25:34.992189 set_flags.go:25: Maximum simultaneous processes allowed is 10. Requests received when this limit is reached will return a 503 (Service unavailable) as response status.
+DEBUG: 2021/06/28 19:25:39.692622 decorators.go:23: Checking thread limit.
+DEBUG: 2021/06/28 19:25:39.692622 decorators.go:24: 0 threads being processed now
+DEBUG: 2021/06/28 19:25:39.692622 decorators.go:27: Request allowed.
+DEBUG: 2021/06/28 19:25:39.693620 decorators.go:13: [request] id: 2bf1135e-db84-4146-80c7-9c7c2ff8480a - GET to /file_info from (referer not sent)
+DEBUG: 2021/06/28 19:25:39.698081 decorators.go:89: Request 2bf1135e-db84-4146-80c7-9c7c2ff8480a - Auth URL used for this request: http://localhost:8000/api/v1/auth
+DEBUG: 2021/06/28 19:25:40.064264 decorators.go:107: Request 2bf1135e-db84-4146-80c7-9c7c2ff8480a - Authorized by http://localhost:8000/api/v1/auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/06/28 19:25:40.064264 retrieve_file_info.go:52: Request 2bf1135e-db84-4146-80c7-9c7c2ff8480a - Starting retrieve file info handling
+DEBUG: 2021/06/28 19:26:10.321344 helpers.go:124: Ctrl+C pressed in Terminal
+DEBUG: 2021/06/28 19:26:10.321344 helpers.go:125: Stopping FhaaS
+DEBUG: 2021/06/28 19:27:24.671996 main.go:80: Starting FhaaS
+DEBUG: 2021/06/28 19:27:24.694540 set_flags.go:40: Using http://localhost:8000/api/v1/auth as url for authorization.
+DEBUG: 2021/06/28 19:27:24.694540 set_flags.go:56: logtokens is set to false.
+DEBUG: 2021/06/28 19:27:24.694540 set_flags.go:23: maxthreads flag is set to 10
+DEBUG: 2021/06/28 19:27:24.695075 set_flags.go:25: Maximum simultaneous processes allowed is 10. Requests received when this limit is reached will return a 503 (Service unavailable) as response status.
+DEBUG: 2021/06/28 19:27:30.857000 decorators.go:23: Checking thread limit.
+DEBUG: 2021/06/28 19:27:30.857000 decorators.go:24: 0 threads being processed now
+DEBUG: 2021/06/28 19:27:30.857000 decorators.go:27: Request allowed.
+DEBUG: 2021/06/28 19:27:30.857000 decorators.go:13: [request] id: 66106c27-112e-42cc-b68e-8349cbb5435d - GET to /file_info from (referer not sent)
+DEBUG: 2021/06/28 19:27:30.866981 decorators.go:89: Request 66106c27-112e-42cc-b68e-8349cbb5435d - Auth URL used for this request: http://localhost:8000/api/v1/auth
+DEBUG: 2021/06/28 19:27:31.240777 decorators.go:107: Request 66106c27-112e-42cc-b68e-8349cbb5435d - Authorized by http://localhost:8000/api/v1/auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/06/28 19:27:31.240777 retrieve_file_info.go:52: Request 66106c27-112e-42cc-b68e-8349cbb5435d - Starting retrieve file info handling
+DEBUG: 2021/06/28 19:27:53.593916 decorators.go:23: Checking thread limit.
+DEBUG: 2021/06/28 19:27:53.593916 decorators.go:24: 0 threads being processed now
+DEBUG: 2021/06/28 19:27:53.593916 decorators.go:27: Request allowed.
+DEBUG: 2021/06/28 19:27:53.593916 decorators.go:13: [request] id: 92d52457-49ed-4422-9e0c-2cb2fad72834 - GET to /file_info from (referer not sent)
+DEBUG: 2021/06/28 19:27:53.596916 decorators.go:89: Request 92d52457-49ed-4422-9e0c-2cb2fad72834 - Auth URL used for this request: http://localhost:8000/api/v1/auth
+DEBUG: 2021/06/28 19:27:53.939988 decorators.go:107: Request 92d52457-49ed-4422-9e0c-2cb2fad72834 - Authorized by http://localhost:8000/api/v1/auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/06/28 19:27:53.939988 retrieve_file_info.go:52: Request 92d52457-49ed-4422-9e0c-2cb2fad72834 - Starting retrieve file info handling
+DEBUG: 2021/06/28 19:27:53.939988 retrieve_file_info.go:10: Request 92d52457-49ed-4422-9e0c-2cb2fad72834 - Retrieving file info.
+DEBUG: 2021/06/28 19:27:53.939988 retrieve_file_info.go:11: Request 92d52457-49ed-4422-9e0c-2cb2fad72834 - FileName: Y:/XAVC480\C100\\C100C008_210126DD.MXF
+DEBUG: 2021/06/28 19:27:53.943247 retrieve_file_info.go:17: Request 92d52457-49ed-4422-9e0c-2cb2fad72834 - File Y:/XAVC480\C100\\C100C008_210126DD.MXF info retrieved successfully
+DEBUG: 2021/06/28 19:29:09.489493 decorators.go:23: Checking thread limit.
+DEBUG: 2021/06/28 19:29:09.489519 decorators.go:24: 0 threads being processed now
+DEBUG: 2021/06/28 19:29:09.489519 decorators.go:27: Request allowed.
+DEBUG: 2021/06/28 19:29:09.489519 decorators.go:13: [request] id: 6269c6a7-cc89-45f6-bc83-6028a27ce122 - GET to /file_info from (referer not sent)
+DEBUG: 2021/06/28 19:29:09.491677 decorators.go:89: Request 6269c6a7-cc89-45f6-bc83-6028a27ce122 - Auth URL used for this request: http://localhost:8000/api/v1/auth
+DEBUG: 2021/06/28 19:29:09.830850 decorators.go:107: Request 6269c6a7-cc89-45f6-bc83-6028a27ce122 - Authorized by http://localhost:8000/api/v1/auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/06/28 19:29:09.830850 retrieve_file_info.go:52: Request 6269c6a7-cc89-45f6-bc83-6028a27ce122 - Starting retrieve file info handling
+DEBUG: 2021/06/28 19:29:09.830850 retrieve_file_info.go:10: Request 6269c6a7-cc89-45f6-bc83-6028a27ce122 - Retrieving file info.
+DEBUG: 2021/06/28 19:29:09.831666 retrieve_file_info.go:11: Request 6269c6a7-cc89-45f6-bc83-6028a27ce122 - FileName: U:/teste.MXF
+DEBUG: 2021/06/28 19:29:09.835966 retrieve_file_info.go:17: Request 6269c6a7-cc89-45f6-bc83-6028a27ce122 - File U:/teste.MXF info retrieved successfully
+DEBUG: 2021/06/28 19:32:43.251107 helpers.go:124: Ctrl+C pressed in Terminal
+DEBUG: 2021/06/28 19:32:43.251107 helpers.go:125: Stopping FhaaS
