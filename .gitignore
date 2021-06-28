@@ -16,3 +16,4 @@
 
 src/logs/*.log
 fhaasws.code-workspace
+*.log

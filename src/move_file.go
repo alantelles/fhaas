@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -14,6 +15,7 @@ type FileMoveBody struct {
 	FileIn    string `json:"file_in"`
 	FileOut   string `json:"file_out"`
 	Overwrite bool   `json:"overwrite"`
+	CreateDir bool   `json:"create_dir"`
 }
 
 func moveFile(reqId string, fileMoveSettings FileMoveBody) (int, error) {
@@ -40,7 +42,15 @@ func moveFile(reqId string, fileMoveSettings FileMoveBody) (int, error) {
 			return 0, err
 		}
 		defer new.Close()
-
+		if fileMoveSettings.CreateDir {
+			destDir := filepath.Dir(fileMoveSettings.FileOut)
+			if destDir != "." {
+				err := os.MkdirAll(destDir, 777)
+				if err != nil {
+					return 0, err
+				}
+			}
+		}
 		written, err := io.Copy(new, orig)
 		if err != nil {
 			os.Remove(fileMoveSettings.FileOut)
