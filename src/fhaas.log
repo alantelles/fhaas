@@ -5,3 +5,79 @@ DEBUG: 2021/06/28 19:34:27.710061 set_flags.go:23: maxthreads flag is set to 10
 DEBUG: 2021/06/28 19:34:27.710621 set_flags.go:25: Maximum simultaneous processes allowed is 10. Requests received when this limit is reached will return a 503 (Service unavailable) as response status.
 DEBUG: 2021/06/28 19:51:12.130300 helpers.go:124: Ctrl+C pressed in Terminal
 DEBUG: 2021/06/28 19:51:12.130714 helpers.go:125: Stopping FhaaS
+DEBUG: 2021/06/28 19:54:23.632046 main.go:80: Starting FhaaS
+DEBUG: 2021/06/28 19:54:23.697077 set_flags.go:40: Using http://localhost:8000/api/v1/auth as url for authorization.
+DEBUG: 2021/06/28 19:54:23.697077 set_flags.go:56: logtokens is set to false.
+DEBUG: 2021/06/28 19:54:23.697077 set_flags.go:23: maxthreads flag is set to 10
+DEBUG: 2021/06/28 19:54:23.697386 set_flags.go:25: Maximum simultaneous processes allowed is 10. Requests received when this limit is reached will return a 503 (Service unavailable) as response status.
+DEBUG: 2021/06/28 19:57:40.548009 decorators.go:13: [request] id: 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - PUT to /move from (referer not sent)
+DEBUG: 2021/06/28 19:57:40.551215 decorators.go:89: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - Auth URL used for this request: http://localhost:8000/api/v1/auth
+DEBUG: 2021/06/28 19:57:40.905624 decorators.go:107: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - Authorized by http://localhost:8000/api/v1/auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/06/28 19:57:40.905624 move_file.go:157: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - Starting move process handling
+DEBUG: 2021/06/28 19:57:40.905624 move_file.go:158: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - Request body: {"file_in": "Y:/XAVC480\\C100\\C100C008_210126DD.MXF", "file_out": "U:/teste.MXF", "overwrite": true, "create_dir": true}
+DEBUG: 2021/06/28 19:57:40.905624 verifiers.go:26: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - Request is sync
+DEBUG: 2021/06/28 19:57:40.905624 move_file.go:22: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - Starting move.
+DEBUG: 2021/06/28 19:57:40.905624 move_file.go:23: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - FileIn: Y:/XAVC480\C100\C100C008_210126DD.MXF
+DEBUG: 2021/06/28 19:57:40.905624 move_file.go:24: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - FileOut: U:/teste.MXF
+DEBUG: 2021/06/28 19:57:40.905624 move_file.go:25: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - Overwrite: true
+DEBUG: 2021/06/28 19:57:41.282217 move_file.go:60: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - File Y:/XAVC480\C100\C100C008_210126DD.MXF moved to U:/teste.MXF successfully
+DEBUG: 2021/06/28 19:57:41.302829 move_file.go:63: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - Removing Y:/XAVC480\C100\C100C008_210126DD.MXF source file
+DEBUG: 2021/06/28 19:57:41.304478 move_file.go:185: Request 2572a7df-7ccb-4d7d-8209-53bb71ab34c8 - Move process response: {"message":"File moved successfully","data":{"body":{"file_in":"Y:/XAVC480\\C100\\C100C008_210126DD.MXF","file_out":"U:/teste.MXF","overwrite":true,"create_dir":true},"bytesWritten":158002224},"status":0,"request_id":"2572a7df-7ccb-4d7d-8209-53bb71ab34c8"}
+DEBUG: 2021/06/28 19:59:12.613001 decorators.go:13: [request] id: c8841bd2-f462-474b-bbb5-cff75fdf4683 - PUT to /move from (referer not sent)
+DEBUG: 2021/06/28 19:59:12.615319 decorators.go:89: Request c8841bd2-f462-474b-bbb5-cff75fdf4683 - Auth URL used for this request: http://localhost:8000/api/v1/auth
+DEBUG: 2021/06/28 19:59:12.962164 decorators.go:107: Request c8841bd2-f462-474b-bbb5-cff75fdf4683 - Authorized by http://localhost:8000/api/v1/auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/06/28 19:59:12.962164 move_file.go:157: Request c8841bd2-f462-474b-bbb5-cff75fdf4683 - Starting move process handling
+DEBUG: 2021/06/28 19:59:12.962164 move_file.go:158: Request c8841bd2-f462-474b-bbb5-cff75fdf4683 - Request body: {"file_in": "Y:/XAVC480\\C100\\C100C008_210126DD.MXF", "file_out": "U:/teste.MXF", "overwrite": true, "create_dir": true}
+DEBUG: 2021/06/28 19:59:12.962164 verifiers.go:26: Request c8841bd2-f462-474b-bbb5-cff75fdf4683 - Request is sync
+DEBUG: 2021/06/28 19:59:12.962164 move_file.go:22: Request c8841bd2-f462-474b-bbb5-cff75fdf4683 - Starting move.
+DEBUG: 2021/06/28 19:59:12.962164 move_file.go:23: Request c8841bd2-f462-474b-bbb5-cff75fdf4683 - FileIn: Y:/XAVC480\C100\C100C008_210126DD.MXF
+DEBUG: 2021/06/28 19:59:12.962164 move_file.go:24: Request c8841bd2-f462-474b-bbb5-cff75fdf4683 - FileOut: U:/teste.MXF
+DEBUG: 2021/06/28 19:59:12.962164 move_file.go:25: Request c8841bd2-f462-474b-bbb5-cff75fdf4683 - Overwrite: true
+ERROR: 2021/06/28 19:59:12.966076 move_file.go:88: While processing move on Request c8841bd2-f462-474b-bbb5-cff75fdf4683: open Y:/XAVC480\C100\C100C008_210126DD.MXF: O sistema não pode encontrar o arquivo especificado.
+DEBUG: 2021/06/28 19:59:12.966076 move_file.go:185: Request c8841bd2-f462-474b-bbb5-cff75fdf4683 - Move process response: {"message":"Operation failed: open Y:/XAVC480\\C100\\C100C008_210126DD.MXF: O sistema não pode encontrar o arquivo especificado.","data":{"body":{"file_in":"Y:/XAVC480\\C100\\C100C008_210126DD.MXF","file_out":"U:/teste.MXF","overwrite":true,"create_dir":true},"bytesWritten":0},"status":0,"request_id":"c8841bd2-f462-474b-bbb5-cff75fdf4683"}
+DEBUG: 2021/06/28 19:59:56.313410 decorators.go:13: [request] id: a02e4722-c875-4c1e-9eaf-81396a3281b8 - PUT to /move from (referer not sent)
+DEBUG: 2021/06/28 19:59:56.315593 decorators.go:89: Request a02e4722-c875-4c1e-9eaf-81396a3281b8 - Auth URL used for this request: http://localhost:8000/api/v1/auth
+DEBUG: 2021/06/28 19:59:56.675009 decorators.go:107: Request a02e4722-c875-4c1e-9eaf-81396a3281b8 - Authorized by http://localhost:8000/api/v1/auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/06/28 19:59:56.675009 move_file.go:157: Request a02e4722-c875-4c1e-9eaf-81396a3281b8 - Starting move process handling
+DEBUG: 2021/06/28 19:59:56.675537 move_file.go:158: Request a02e4722-c875-4c1e-9eaf-81396a3281b8 - Request body: {"file_in": "Y:/XAVC480\\B084\\B084C001_2101258H.MXF", "file_out": "U:/teste.MXF", "overwrite": false, "create_dir": true}
+DEBUG: 2021/06/28 19:59:56.675622 verifiers.go:26: Request a02e4722-c875-4c1e-9eaf-81396a3281b8 - Request is sync
+DEBUG: 2021/06/28 19:59:56.675622 move_file.go:22: Request a02e4722-c875-4c1e-9eaf-81396a3281b8 - Starting move.
+DEBUG: 2021/06/28 19:59:56.675622 move_file.go:23: Request a02e4722-c875-4c1e-9eaf-81396a3281b8 - FileIn: Y:/XAVC480\B084\B084C001_2101258H.MXF
+DEBUG: 2021/06/28 19:59:56.675622 move_file.go:24: Request a02e4722-c875-4c1e-9eaf-81396a3281b8 - FileOut: U:/teste.MXF
+DEBUG: 2021/06/28 19:59:56.675622 move_file.go:25: Request a02e4722-c875-4c1e-9eaf-81396a3281b8 - Overwrite: false
+DEBUG: 2021/06/28 19:59:56.678620 move_file.go:69: Request a02e4722-c875-4c1e-9eaf-81396a3281b8 - Destination file "U:/teste.MXF" exists. No operations done
+DEBUG: 2021/06/28 19:59:56.678620 move_file.go:185: Request a02e4722-c875-4c1e-9eaf-81396a3281b8 - Move process response: {"message":"File not moved due to already existing and overwrite was set to false","data":{"body":{"file_in":"Y:/XAVC480\\B084\\B084C001_2101258H.MXF","file_out":"U:/teste.MXF","overwrite":false,"create_dir":true},"bytesWritten":-1},"status":0,"request_id":"a02e4722-c875-4c1e-9eaf-81396a3281b8"}
+DEBUG: 2021/06/28 20:00:24.438675 decorators.go:13: [request] id: 84cdbde2-539d-465d-8957-f977a0ad464a - PUT to /move from (referer not sent)
+DEBUG: 2021/06/28 20:00:24.443390 decorators.go:89: Request 84cdbde2-539d-465d-8957-f977a0ad464a - Auth URL used for this request: http://localhost:8000/api/v1/auth
+DEBUG: 2021/06/28 20:00:24.787794 decorators.go:107: Request 84cdbde2-539d-465d-8957-f977a0ad464a - Authorized by http://localhost:8000/api/v1/auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/06/28 20:00:24.788326 move_file.go:157: Request 84cdbde2-539d-465d-8957-f977a0ad464a - Starting move process handling
+DEBUG: 2021/06/28 20:00:24.788326 move_file.go:158: Request 84cdbde2-539d-465d-8957-f977a0ad464a - Request body: {"file_in": "Y:/XAVC480\\B084\\B084C001_2101258H.MXF", "file_out": "U:/zika\\teste.MXF", "overwrite": true, "create_dir": true}
+DEBUG: 2021/06/28 20:00:24.788326 verifiers.go:26: Request 84cdbde2-539d-465d-8957-f977a0ad464a - Request is sync
+DEBUG: 2021/06/28 20:00:24.788326 move_file.go:22: Request 84cdbde2-539d-465d-8957-f977a0ad464a - Starting move.
+DEBUG: 2021/06/28 20:00:24.788326 move_file.go:23: Request 84cdbde2-539d-465d-8957-f977a0ad464a - FileIn: Y:/XAVC480\B084\B084C001_2101258H.MXF
+DEBUG: 2021/06/28 20:00:24.788326 move_file.go:24: Request 84cdbde2-539d-465d-8957-f977a0ad464a - FileOut: U:/zika\teste.MXF
+DEBUG: 2021/06/28 20:00:24.788326 move_file.go:25: Request 84cdbde2-539d-465d-8957-f977a0ad464a - Overwrite: true
+ERROR: 2021/06/28 20:00:24.804468 move_file.go:88: While processing move on Request 84cdbde2-539d-465d-8957-f977a0ad464a: open U:/zika\teste.MXF: O sistema não pode encontrar o caminho especificado.
+DEBUG: 2021/06/28 20:00:24.805034 move_file.go:185: Request 84cdbde2-539d-465d-8957-f977a0ad464a - Move process response: {"message":"Operation failed: open U:/zika\\teste.MXF: O sistema não pode encontrar o caminho especificado.","data":{"body":{"file_in":"Y:/XAVC480\\B084\\B084C001_2101258H.MXF","file_out":"U:/zika\\teste.MXF","overwrite":true,"create_dir":true},"bytesWritten":0},"status":0,"request_id":"84cdbde2-539d-465d-8957-f977a0ad464a"}
+DEBUG: 2021/06/28 20:01:11.576788 helpers.go:124: Ctrl+C pressed in Terminal
+DEBUG: 2021/06/28 20:01:11.576788 helpers.go:125: Stopping FhaaS
+DEBUG: 2021/06/28 20:01:14.144054 main.go:80: Starting FhaaS
+DEBUG: 2021/06/28 20:01:14.177094 set_flags.go:40: Using http://localhost:8000/api/v1/auth as url for authorization.
+DEBUG: 2021/06/28 20:01:14.177094 set_flags.go:56: logtokens is set to false.
+DEBUG: 2021/06/28 20:01:14.177094 set_flags.go:23: maxthreads flag is set to 10
+DEBUG: 2021/06/28 20:01:14.177094 set_flags.go:25: Maximum simultaneous processes allowed is 10. Requests received when this limit is reached will return a 503 (Service unavailable) as response status.
+DEBUG: 2021/06/28 20:01:21.397178 decorators.go:13: [request] id: f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - PUT to /move from (referer not sent)
+DEBUG: 2021/06/28 20:01:21.399046 decorators.go:89: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - Auth URL used for this request: http://localhost:8000/api/v1/auth
+DEBUG: 2021/06/28 20:01:21.744737 decorators.go:107: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - Authorized by http://localhost:8000/api/v1/auth with token [logtokens disabled]. Processing request.
+DEBUG: 2021/06/28 20:01:21.745260 move_file.go:156: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - Starting move process handling
+DEBUG: 2021/06/28 20:01:21.745273 move_file.go:157: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - Request body: {"file_in": "Y:/XAVC480\\B084\\B084C001_2101258H.MXF", "file_out": "U:/zika\\teste.MXF", "overwrite": true, "create_dir": true}
+DEBUG: 2021/06/28 20:01:21.745822 verifiers.go:26: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - Request is sync
+DEBUG: 2021/06/28 20:01:21.745822 move_file.go:22: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - Starting move.
+DEBUG: 2021/06/28 20:01:21.745822 move_file.go:23: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - FileIn: Y:/XAVC480\B084\B084C001_2101258H.MXF
+DEBUG: 2021/06/28 20:01:21.745822 move_file.go:24: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - FileOut: U:/zika\teste.MXF
+DEBUG: 2021/06/28 20:01:21.745822 move_file.go:25: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - Overwrite: true
+DEBUG: 2021/06/28 20:01:23.230907 move_file.go:59: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - File Y:/XAVC480\B084\B084C001_2101258H.MXF moved to U:/zika\teste.MXF successfully
+DEBUG: 2021/06/28 20:01:23.272519 move_file.go:62: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - Removing Y:/XAVC480\B084\B084C001_2101258H.MXF source file
+DEBUG: 2021/06/28 20:01:23.387696 move_file.go:184: Request f1a63ab8-5d96-4f70-a4c5-6e5430741a5a - Move process response: {"message":"File moved successfully","data":{"body":{"file_in":"Y:/XAVC480\\B084\\B084C001_2101258H.MXF","file_out":"U:/zika\\teste.MXF","overwrite":true,"create_dir":true},"bytesWritten":346385968},"status":0,"request_id":"f1a63ab8-5d96-4f70-a4c5-6e5430741a5a"}
+DEBUG: 2021/06/28 20:02:06.395252 helpers.go:124: Ctrl+C pressed in Terminal
+DEBUG: 2021/06/28 20:02:06.395252 helpers.go:125: Stopping FhaaS

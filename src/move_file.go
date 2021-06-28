@@ -36,12 +36,6 @@ func moveFile(reqId string, fileMoveSettings FileMoveBody) (int, error) {
 		if err != nil {
 			return 0, err
 		}
-
-		new, err := os.Create(fileMoveSettings.FileOut)
-		if err != nil {
-			return 0, err
-		}
-		defer new.Close()
 		if fileMoveSettings.CreateDir {
 			destDir := filepath.Dir(fileMoveSettings.FileOut)
 			if destDir != "." {
@@ -51,6 +45,11 @@ func moveFile(reqId string, fileMoveSettings FileMoveBody) (int, error) {
 				}
 			}
 		}
+		new, err := os.Create(fileMoveSettings.FileOut)
+		if err != nil {
+			return 0, err
+		}
+		defer new.Close()
 		written, err := io.Copy(new, orig)
 		if err != nil {
 			os.Remove(fileMoveSettings.FileOut)
@@ -99,6 +98,7 @@ func moveInterfaceSync(reqId string, fileMoveSettings FileMoveBody) (Envelope, i
 
 	}
 	nowThreads -= 1
+	env.Status = status
 	return env, status
 }
 
