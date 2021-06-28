@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"strings"
 )
 
 func moveListInterfaceSync(reqId string, fileListMoveSettings []FileMoveBody) (Envelope, int) {
@@ -38,7 +37,8 @@ func moveListInterfaceSync(reqId string, fileListMoveSettings []FileMoveBody) (E
 	}
 	env.Data = data
 	env.Message = "Moves processed"
-	env.RequestId = strings.Replace(reqId, "Request ", "", -1)
+	env.RequestId = dropReq(reqId)
+	env.Status = finalStatus
 	nowThreads -= 1
 	return env, finalStatus
 }
@@ -75,6 +75,7 @@ func moveListAsyncWrapper(reqId string, fileListMoveSettings []FileMoveBody, sen
 	env.Data = data
 	env.RequestId = dropReq(reqId)
 	env.Message = "Moves processed"
+	env.Status = finalStatus
 	shouldSendStatus(sendStatusTo, reqId, env, sendStatusAuth)
 	nowThreads -= 1
 }

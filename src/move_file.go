@@ -126,6 +126,7 @@ func moveAsyncWrapper(reqId string, fileMoveSettings FileMoveBody, sendStatusTo 
 		"status":       status,
 	}
 	env.Data = data
+	env.Status = status
 	shouldSendStatus(sendStatusTo, reqId, env, sendStatusAuth)
 	nowThreads -= 1
 }
