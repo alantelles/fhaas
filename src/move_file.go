@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -117,28 +116,7 @@ func moveAsyncWrapper(reqId string, fileMoveSettings FileMoveBody, sendStatusTo 
 		"status":       status,
 	}
 	env.Data = data
-	if sendStatusTo != "" {
-		body, _ := json.Marshal(env)
-		logDebug.Printf("%s - Status: %s", reqId, string(body))
-		logDebug.Printf("%s - Sending status to %s", reqId, sendStatusTo)
-		req, err := http.NewRequest("POST", sendStatusTo, bytes.NewReader(body))
-		if err != nil {
-			logError.Printf("%s - Error while creating request to send status: %v", reqId, err)
-		}
-		if sendStatusAuth != "" {
-			req.Header.Set("Authorization", sendStatusAuth)
-		}
-		req.Header.Set("Content-Type", "application/json")
-		client := createClient(20)
-		resp, err := client.Do(req)
-		if err != nil {
-			logError.Printf("%s - Error while sending operation status: %v", reqId, err)
-		}
-		defer resp.Body.Close()
-		respBytes, _ := io.ReadAll(resp.Body)
-		respStr := string(respBytes)
-		logDebug.Printf("%s - Status endpoint returned with: %s", reqId, respStr)
-	}
+	shouldSendStatus(sendStatusTo, reqId, env, sendStatusAuth)
 	nowThreads -= 1
 }
 
@@ -150,8 +128,10 @@ func moveInterfaceASync(reqId string, fileMoveSettings FileMoveBody, sendStatusT
 	env := Envelope{
 		Message:   "Move process started",
 		Data:      data,
-		RequestId: reqId,
+		RequestId: dropReq(reqId),
+		Status:    http.StatusAccepted,
 	}
+
 	return env, http.StatusAccepted
 }
 

@@ -13,7 +13,8 @@ GET {{url}}
 POST {{url}}/copy
 {{json}}
 {{auth}}
-{{authurl}}
+{{async}}
+{{sendstatusto}}
 
 {"file_in": "C:\\Users\\alango\\Documents\\claquetes_reais\\C100\\C100C007_210126BF.MXF", "file_out": "C:\\Users\\alango\\Documents\\claquetes_reais\\output\\C100C007_210126BF_copy.MXF", "overwrite": true}
 ###

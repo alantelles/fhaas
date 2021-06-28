@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -126,29 +125,7 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo,
 	}
 	env.Data = data
 	env.Status = status
-	if sendStatusTo != "" {
-		body, _ := json.Marshal(env)
-		logDebug.Printf("%s - Status: %s", reqId, string(body))
-		logDebug.Printf("%s - Sending status to %s", reqId, sendStatusTo)
-		req, err := http.NewRequest("POST", sendStatusTo, bytes.NewReader(body))
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("User-Agent", "FhaaS/Go-http-client/1.1")
-		if err != nil {
-			logError.Printf("%s - Error while creating request to send status: %v", reqId, err)
-		}
-		if sendStatusAuth != "" {
-			req.Header.Set("Authorization", sendStatusAuth)
-		}
-		client := createClient(20)
-		resp, err := client.Do(req)
-		if err != nil {
-			logError.Printf("%s - Error while sending operation status: %v", reqId, err)
-		}
-		defer resp.Body.Close()
-		respBytes, _ := io.ReadAll(resp.Body)
-		respStr := string(respBytes)
-		logDebug.Printf("%s - Status endpoint returned with: %s", reqId, respStr)
-	}
+	shouldSendStatus(sendStatusTo, reqId, env, sendStatusAuth)
 	nowThreads -= 1
 }
 
@@ -160,7 +137,8 @@ func copyInterfaceASync(reqId string, fileCopySettings FileCopyBody, sendStatusT
 	env := Envelope{
 		Message:   "Copy process started",
 		Data:      data,
-		RequestId: strings.Replace(reqId, "Request ", "", -1),
+		RequestId: dropReq(reqId),
+		Status:    http.StatusAccepted,
 	}
 	return env, http.StatusAccepted
 }

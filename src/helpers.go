@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"os"
@@ -14,6 +16,44 @@ import (
 
 func dropReq(reqId string) string {
 	return strings.Replace(reqId, "Request ", "", -1)
+}
+
+func shouldSendStatus(sendStatusTo string, reqId string, env Envelope, sendStatusAuth string) {
+	if sendStatusTo != "" {
+		msgFmt, err := sendOperationStatus(reqId, env, sendStatusTo, sendStatusAuth)
+		if err != nil {
+			logError.Printf(msgFmt, err)
+		}
+		logDebug.Println(msgFmt)
+	}
+}
+
+func sendOperationStatus(reqId string, env Envelope, sendStatusTo, sendStatusAuth string) (string, error) {
+	var msgFmt string
+	body, _ := json.Marshal(env)
+	logDebug.Printf("%s - Status: %s", reqId, string(body))
+	logDebug.Printf("%s - Sending status to %s", reqId, sendStatusTo)
+	req, err := http.NewRequest("POST", sendStatusTo, bytes.NewReader(body))
+	if err != nil {
+		msgFmt = "%s - Error while creating request to send status: %v"
+		return msgFmt, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("User-Agent", "FhaaS/Go-http-client/1.1")
+	if sendStatusAuth != "" {
+		req.Header.Set("Authorization", sendStatusAuth)
+	}
+	client := createClient(20)
+	resp, err := client.Do(req)
+	if err != nil {
+		msgFmt = "%s - Error while sending operation status: %v"
+		return msgFmt, err
+	}
+	defer resp.Body.Close()
+	respBytes, _ := io.ReadAll(resp.Body)
+	respStr := string(respBytes)
+	msgFmt = fmt.Sprintf("%s - Status endpoint returned with: %s", reqId, respStr)
+	return msgFmt, nil
 }
 
 func fileNameAttendFilters(subject string, filters []string) bool {

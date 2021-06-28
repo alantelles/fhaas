@@ -1,9 +1,7 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -84,27 +82,7 @@ func copyListAsyncWrapper(reqId string, fileListCopySettings []FileCopyBody, sen
 	env.RequestId = dropReq(reqId)
 	env.Status = finalStatus
 	env.Message = "Copies processed"
-	if sendStatusTo != "" {
-		body, _ := json.Marshal(env)
-		logDebug.Printf("%s - Status: %s", reqId, string(body))
-		logDebug.Printf("%s - Sending status to %s", reqId, sendStatusTo)
-		req, err := http.NewRequest("POST", sendStatusTo, bytes.NewReader(body))
-		if err != nil {
-			logError.Printf("%s - Error while creating request to send status: %v", reqId, err)
-		}
-		if sendStatusAuth != "" {
-			req.Header.Set("Authorization", sendStatusAuth)
-		}
-		client := createClient(20)
-		resp, err := client.Do(req)
-		if err != nil {
-			logError.Printf("%s - Error while sending operation status: %v", reqId, err)
-		}
-		defer resp.Body.Close()
-		respBytes, _ := io.ReadAll(resp.Body)
-		respStr := string(respBytes)
-		logDebug.Printf("%s - Status endpoint returned with: %s", reqId, respStr)
-	}
+	shouldSendStatus(sendStatusTo, reqId, env, sendStatusAuth)
 	// return env, finalStatus
 	nowThreads -= 1
 }
