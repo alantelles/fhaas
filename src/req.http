@@ -18,7 +18,7 @@ POST {{url}}/copy
 
 {"file_in": "C:\\Users\\alango\\Documents\\claquetes_reais\\C100\\C100C007_210126BF.MXF", "file_out": "C:\\Users\\alango\\Documents\\claquetes_reais\\output\\C100C007_210126BF_copy.MXF", "overwrite": true}
 ###
-POST {{url}}/copy/many
+PUT {{url}}/move/many
 {{json}}
 {{auth}}
 {{authurl}}
@@ -64,3 +64,8 @@ GET {{url}}/retrieve?filename=\\wp021100\Users\alango\Documents\develop\globo\ai
 ###
 {{url}}/threads
 {{auth}}
+###
+GET {{url}}/info?filename=\\wp021100\Users\alango\Documents\develop\globo\ailog-easylogx\build\exported\2021-05-11\GenericMeta\V_DESCONHECIDO_210125-134056-SSM\B084C001_2101258H.GEN
+{{auth}}
+{{authurl}}
+###

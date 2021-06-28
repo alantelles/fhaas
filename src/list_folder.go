@@ -20,10 +20,11 @@ type ListFolderQuery struct {
 }
 
 type FileInfoConform struct {
-	FileName    string    `json:"filename"`
-	Size        int       `json:"length"`
-	LastMod     time.Time `json:"last_mod"`
-	IsDirectory bool      `json:"is_directory"`
+	FileName    string      `json:"filename"`
+	Size        int         `json:"length"`
+	LastMod     time.Time   `json:"last_mod"`
+	IsDirectory bool        `json:"is_directory"`
+	Sys         interface{} `json:"os_fileinfo"`
 }
 
 func fillFileInfoConform(file os.FileInfo, path string) FileInfoConform {
@@ -32,6 +33,7 @@ func fillFileInfoConform(file os.FileInfo, path string) FileInfoConform {
 	fileInfo.Size = int(file.Size())
 	fileInfo.LastMod = file.ModTime()
 	fileInfo.IsDirectory = file.IsDir()
+	fileInfo.Sys = file.Sys()
 	return fileInfo
 }
 
