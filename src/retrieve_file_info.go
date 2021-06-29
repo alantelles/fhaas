@@ -10,10 +10,11 @@ func retrieveFileInfo(reqId string, fileRetrieveSettings FileRetrieveQuery, inde
 	logDebug.Printf("%s - Retrieving file info.\n", reqId)
 	logDebug.Printf("%s - FileName: %s\n", reqId, fileRetrieveSettings.Files[index])
 	info, err := os.Stat(fileRetrieveSettings.Files[index])
-	content := fillFileInfoConform(info, info.Name())
+	content := FileInfoConform{}
 	if err != nil {
 		return content, err
 	}
+	content = fillFileInfoConform(info, info.Name())
 	logDebug.Printf("%s - File %s info retrieved successfully\n", reqId, fileRetrieveSettings.Files[index])
 	return content, err
 }
