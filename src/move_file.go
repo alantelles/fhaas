@@ -39,7 +39,7 @@ func moveFile(reqId string, fileMoveSettings FileMoveBody) (int, error) {
 		if fileMoveSettings.CreateDir {
 			destDir := filepath.Dir(fileMoveSettings.FileOut)
 			if destDir != "." {
-				err := os.MkdirAll(destDir, 777)
+				err := os.MkdirAll(destDir, 0777)
 				if err != nil {
 					return 0, err
 				}

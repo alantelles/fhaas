@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/fs"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"time"
 )
 
@@ -33,16 +35,17 @@ func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
 			return 0, err
 		}
 		about, err := os.Stat(fileCopySettings.FileIn)
-		modTime := about.ModTime()
-		nowTime := time.Now().Local()
 		if err != nil {
 			return 0, err
 		}
+		modTime := about.ModTime()
+		nowTime := time.Now().Local()
+		osFileInfo := about.Sys().(*syscall.Stat_t)
 		defer orig.Close()
 		if fileCopySettings.CreateDir {
 			destDir := filepath.Dir(fileCopySettings.FileOut)
 			if destDir != "." {
-				err := os.MkdirAll(destDir, 777)
+				err := os.MkdirAll(destDir, 0777)
 				if err != nil {
 					return 0, err
 				}
@@ -59,6 +62,11 @@ func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
 		if err != nil {
 			return 0, err
 		}
+		err = os.Chown(fileCopySettings.FileOut, int(osFileInfo.Uid), int(osFileInfo.Gid))
+		if err != nil {
+			return 0, err
+		}
+		err = os.Chmod(fileCopySettings.FileOut, fs.FileMode(osFileInfo.Mode))
 		os.Chtimes(fileCopySettings.FileOut, nowTime, modTime)
 		logDebug.Printf("%s - File %s copied to %s successfully\n", reqId, fileCopySettings.FileIn, fileCopySettings.FileOut)
 		return int(written), err
