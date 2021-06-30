@@ -49,6 +49,10 @@ func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
 				if err != nil {
 					return 0, err
 				}
+				err = os.Chown(destDir, int(osFileInfo.Uid), int(osFileInfo.Gid))
+				if err != nil {
+					return 0, err
+				}
 			}
 		}
 

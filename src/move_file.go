@@ -4,10 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/fs"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
+	"syscall"
 	"time"
 )
 
@@ -33,6 +35,7 @@ func moveFile(reqId string, fileMoveSettings FileMoveBody) (int, error) {
 		about, err := os.Stat(fileMoveSettings.FileIn)
 		modTime := about.ModTime()
 		nowTime := time.Now().Local()
+		osFileInfo := about.Sys().(*syscall.Stat_t)
 		if err != nil {
 			return 0, err
 		}
@@ -40,6 +43,10 @@ func moveFile(reqId string, fileMoveSettings FileMoveBody) (int, error) {
 			destDir := filepath.Dir(fileMoveSettings.FileOut)
 			if destDir != "." {
 				err := os.MkdirAll(destDir, 0777)
+				if err != nil {
+					return 0, err
+				}
+				err = os.Chown(destDir, int(osFileInfo.Uid), int(osFileInfo.Gid))
 				if err != nil {
 					return 0, err
 				}
@@ -55,6 +62,11 @@ func moveFile(reqId string, fileMoveSettings FileMoveBody) (int, error) {
 			os.Remove(fileMoveSettings.FileOut)
 			return 0, err
 		}
+		err = os.Chown(fileMoveSettings.FileOut, int(osFileInfo.Uid), int(osFileInfo.Gid))
+		if err != nil {
+			return 0, err
+		}
+		err = os.Chmod(fileMoveSettings.FileOut, fs.FileMode(osFileInfo.Mode))
 		os.Chtimes(fileMoveSettings.FileOut, nowTime, modTime)
 		logDebug.Printf("%s - File %s moved to %s successfully\n", reqId, fileMoveSettings.FileIn, fileMoveSettings.FileOut)
 		orig.Close()
