@@ -32,6 +32,7 @@ var (
 	allowLogTokens    bool
 	nowThreads        int = 0
 	maxThreads        int
+	servicePort int
 
 	logWarn  *log.Logger
 	logDebug *log.Logger

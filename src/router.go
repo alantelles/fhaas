@@ -31,6 +31,7 @@ func handleRequests() {
 	//aux
 	r.HandleFunc("/threads", addDefaultHeaders(verifyAuth(getThreadsHandler))).Methods("GET")
 
-	fmt.Println("Serving at 8080...")
-	http.ListenAndServe(":8080", r)
+	fmt.Printf("Serving at port %v...", servicePort)
+	bind := fmt.Sprintf(":%v", servicePort)
+	http.ListenAndServe(bind, r)
 }

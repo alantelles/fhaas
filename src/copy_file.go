@@ -64,11 +64,11 @@ func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
 
 		written, err := io.Copy(new, orig)
 		if err != nil {
-			return 0, err
+			return written, err
 		}
 		err = os.Chown(fileCopySettings.FileOut, int(osFileInfo.Uid), int(osFileInfo.Gid))
 		if err != nil {
-			return 0, err
+			return written, err
 		}
 		err = os.Chmod(fileCopySettings.FileOut, fs.FileMode(osFileInfo.Mode))
 		os.Chtimes(fileCopySettings.FileOut, nowTime, modTime)

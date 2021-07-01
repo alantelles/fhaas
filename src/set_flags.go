@@ -7,11 +7,22 @@ func setFlags() {
 	authPtr := getAuthUrlFlag()
 	logTokensPtr := getAllowLogToken()
 	maxThreadsPtr := getMaxThreads()
+	servicePortPtr := getServicePort()
 	flag.Parse()
 
 	setAuthUrlFlag(authPtr)
 	setAllowLogToken(logTokensPtr)
 	setMaxThreads(maxThreadsPtr)
+	setServicePort(servicePortPtr)
+}
+
+func getServicePort() *int {
+	return flag.Int("port", 8080, "Port used for HTTP service")
+}
+
+func setServicePort(value *int) {
+	servicePort = *value
+	logDebug.Printf("Service will run on  port %v", servicePort)	
 }
 
 func getMaxThreads() *int {

@@ -1,4 +1,4 @@
-@url = http://localhost:8080
+@url = http://localhost:8083
 @json = Content-Type: application/json
 @auth = X-Fhaas-Auth-Token: {"token": "zikazikazika"}
 @authurl = X-Fhaas-Auth-Url: http://localhost:8080/self_auth
