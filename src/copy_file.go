@@ -21,22 +21,22 @@ type FileCopyBody struct {
 	CreateDir bool   `json:"create_dir"`
 }
 
-func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
+func copyFile(reqId string, fileCopySettings FileCopyBody) (int, bool, error) {
 	logDebug.Printf("%s - Starting copy.\n", reqId)
 	logDebug.Printf("%s - FileIn: %s\n", reqId, fileCopySettings.FileIn)
 	logDebug.Printf("%s - FileOut: %s\n", reqId, fileCopySettings.FileOut)
 	logDebug.Printf("%s - Overwrite: %v\n", reqId, fileCopySettings.Overwrite)
 	logDebug.Printf("%s - CreateDir: %v\n", reqId, fileCopySettings.CreateDir)
-
+	sizeMatch := false
 	destExists := fileExists(fileCopySettings.FileOut)
 	if fileCopySettings.Overwrite || !destExists {
 		orig, err := os.Open(fileCopySettings.FileIn)
 		if err != nil {
-			return 0, err
+			return 0, false, err
 		}
 		about, err := os.Stat(fileCopySettings.FileIn)
 		if err != nil {
-			return 0, err
+			return 0, false, err
 		}
 		modTime := about.ModTime()
 		nowTime := time.Now().Local()
@@ -47,36 +47,43 @@ func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
 			if destDir != "." {
 				err := os.MkdirAll(destDir, 0777)
 				if err != nil {
-					return 0, err
+					return 0, false, err
 				}
 				err = os.Chown(destDir, int(osFileInfo.Uid), int(osFileInfo.Gid))
 				if err != nil {
-					return 0, err
+					return 0, false, err
 				}
 			}
 		}
 
 		new, err := os.Create(fileCopySettings.FileOut)
 		if err != nil {
-			return 0, err
+			return 0, false, err
 		}
 		defer new.Close()
 
 		written, err := io.Copy(new, orig)
-		if err != nil {
-			return written, err
+		if err != nil {			
+			return int(written), sizeMatch, err
 		}
+		
+		info_out, err := os.Stat(fileCopySettings.FileOut) 
+		if err != nil{
+			return int(written), false, err
+		}
+		sizeMatch = info_out.Size() == about.Size()
+		
+		os.Chtimes(fileCopySettings.FileOut, nowTime, modTime)
 		err = os.Chown(fileCopySettings.FileOut, int(osFileInfo.Uid), int(osFileInfo.Gid))
 		if err != nil {
-			return written, err
+			return int(written), sizeMatch, err
 		}
 		err = os.Chmod(fileCopySettings.FileOut, fs.FileMode(osFileInfo.Mode))
-		os.Chtimes(fileCopySettings.FileOut, nowTime, modTime)
 		logDebug.Printf("%s - File %s copied to %s successfully\n", reqId, fileCopySettings.FileIn, fileCopySettings.FileOut)
-		return int(written), err
+		return int(written), sizeMatch, err
 	} else {
 		logDebug.Printf("%s - Destination file \"%s\" exists. No operations done\n", reqId, fileCopySettings.FileOut)
-		return -1, nil
+		return -1, sizeMatch, nil
 	}
 
 }
@@ -84,10 +91,11 @@ func copyFile(reqId string, fileCopySettings FileCopyBody) (int, error) {
 func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, int) {
 	nowThreads += 1
 	var status int
-	written, err := copyFile(reqId, fileCopySettings)
+	written, sizeMatch, err := copyFile(reqId, fileCopySettings)
 	data := map[string]interface{}{
 		"bytes_written": written,
 		"body":          fileCopySettings,
+		"size_match": sizeMatch,
 	}
 	env := Envelope{
 		Data:      data,
@@ -95,8 +103,15 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 	}
 	if err != nil {
 		logError.Printf("While processing copy on %s: %v\n", reqId, err)
-		env.Message = fmt.Sprintf("Operation failed: %v", err)
-		status = http.StatusInternalServerError
+		
+		if sizeMatch {
+			env.Message = fmt.Sprintf("Operation partially successful: %v", err)
+			logWarn.Printf("%s - The request was partially successful. The file sizes match but permission and/or ownership couldn't be changed", reqId)
+			env.Status = http.StatusCreated
+		} else {
+			env.Message = fmt.Sprintf("Operation failed: %v", err)
+			status = http.StatusInternalServerError
+		}
 	} else {
 		if written > -1 {
 			env.Message = "File copied successfully"
@@ -115,7 +130,7 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo, sendStatusAuth string) {
 	nowThreads += 1
 	var status int
-	written, err := copyFile(reqId, fileCopySettings)
+	written, _, err := copyFile(reqId, fileCopySettings)
 	env := Envelope{RequestId: strings.Replace(reqId, "Request ", "", -1)}
 	if err != nil {
 		logError.Printf("Error while processing copy on %s: %v\n", reqId, err)
