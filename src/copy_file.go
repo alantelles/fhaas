@@ -108,6 +108,7 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 			env.Message = fmt.Sprintf("Operation partially successful: %v", err)
 			logWarn.Printf("%s - The request was partially successful. The file sizes match but permission and/or ownership couldn't be changed", reqId)
 			env.Status = http.StatusCreated
+			status = http.StatusCreated
 		} else {
 			env.Message = fmt.Sprintf("Operation failed: %v", err)
 			status = http.StatusInternalServerError
@@ -130,12 +131,20 @@ func copyInterfaceSync(reqId string, fileCopySettings FileCopyBody) (Envelope, i
 func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo, sendStatusAuth string) {
 	nowThreads += 1
 	var status int
-	written, _, err := copyFile(reqId, fileCopySettings)
+	written, sizeMatch, err := copyFile(reqId, fileCopySettings)
 	env := Envelope{RequestId: strings.Replace(reqId, "Request ", "", -1)}
 	if err != nil {
-		logError.Printf("Error while processing copy on %s: %v\n", reqId, err)
-		env.Message = fmt.Sprintf("Operation failed: %v", err)
-		status = http.StatusInternalServerError
+		logError.Printf("While processing copy on %s: %v\n", reqId, err)
+		
+		if sizeMatch {
+			env.Message = fmt.Sprintf("Operation partially successful: %v", err)
+			logWarn.Printf("%s - The request was partially successful. The file sizes match but permission and/or ownership couldn't be changed", reqId)
+			env.Status = http.StatusCreated
+			status = http.StatusCreated
+		} else {
+			env.Message = fmt.Sprintf("Operation failed: %v", err)
+			status = http.StatusInternalServerError
+		}
 	} else {
 		if written > -1 {
 			env.Message = "File copied successfully"
@@ -144,11 +153,26 @@ func copyAsyncWrapper(reqId string, fileCopySettings FileCopyBody, sendStatusTo,
 			env.Message = "File not copied due to already existing and overwrite was set to false"
 			status = http.StatusOK
 		}
+
 	}
+	// if err != nil {
+	// 	logError.Printf("Error while processing copy on %s: %v\n", reqId, err)
+	// 	env.Message = fmt.Sprintf("Operation failed: %v", err)
+	// 	status = http.StatusInternalServerError
+	// } else {
+	// 	if written > -1 {
+	// 		env.Message = "File copied successfully"
+	// 		status = http.StatusCreated
+	// 	} else {
+	// 		env.Message = "File not copied due to already existing and overwrite was set to false"
+	// 		status = http.StatusOK
+	// 	}
+	// }
 	data := map[string]interface{}{
 		"bytesWritten": written,
 		"body":         fileCopySettings,
 		"status":       status,
+		"size_match":   sizeMatch,
 	}
 	env.Data = data
 	env.Status = status
